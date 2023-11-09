@@ -13,15 +13,15 @@ public:
             }
             
         }
-        int n=num1.size();
-        cout<<num1<<" "<<num2<<endl;
-        if(n>1){
-        for(int i=0;i<n;i++){
+        
+        
+        if(num1.size()>1){
+        for(int i=0;i<num1.size();i++){
             num1[i]=(num1[i]-'0'+num2[i]-'0')+'0';
         }
     }
-        if(n>1){
-        for(int i=n-1;i>=1;i--){
+        if(num1.size()>1){
+        for(int i=num1.size()-1;i>=1;i--){
             if((num1[i]-'0')/10>=1){
                 num1[i]=((num1[i]-'0')%10)+'0';
                 num1[i-1]=(num1[i-1]-'0'+1)+'0';
