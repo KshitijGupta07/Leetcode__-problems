@@ -29,9 +29,7 @@ public:
             
 
         }
-         for(int i=0;i<ans.size();i++){
-             cout<<ans[i]<<" ";
-         }
+         
          if(ans.size()==1){
              return ans[0];
          }
