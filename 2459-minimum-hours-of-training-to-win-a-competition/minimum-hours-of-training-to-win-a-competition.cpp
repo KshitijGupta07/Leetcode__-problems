@@ -20,7 +20,7 @@ public:
            sum+=energy[i];
            initialExperience+=experience[i];
         }
-        cout<<sum-initialEnergy+1<<" "<<a<<" "<<sum<<endl;
+        
         if(initialEnergy>sum&&s==0){
         return 0;
               
