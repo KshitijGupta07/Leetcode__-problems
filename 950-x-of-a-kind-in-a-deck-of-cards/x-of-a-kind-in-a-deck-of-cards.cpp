@@ -12,7 +12,7 @@ int minterm(vector<int>& ans){
     bool hasGroupsSizeX(vector<int>& deck) {
         sort(deck.begin(),deck.end());
         int count=1;
-        int m=0;
+        
         vector<int>ans;
         for(int i=1;i<deck.size();i++){
             
@@ -35,7 +35,7 @@ int minterm(vector<int>& ans){
     }
         ans.push_back(count);
         int a=0;
-        if(binary_search(ans.begin(),ans.end(),1)==true)return false;
+        
         for(int i=0;i<ans.size()-1;i++){
         a=__gcd(ans[i],ans[i+1]);
         if(a==1){
