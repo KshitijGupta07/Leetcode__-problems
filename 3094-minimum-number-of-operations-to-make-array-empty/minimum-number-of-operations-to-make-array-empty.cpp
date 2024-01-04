@@ -27,15 +27,11 @@ public:
             if(ans[i]%3==0){
                 count+=ans[i]/3;
             }
-            if(ans[i]%3==2){
+            if(ans[i]%3==2||ans[i]%3==1){
                 count+=ans[i]/3 +1;
             }
-            if(ans[i]%3==1&&ans[i]%2==0){
-                count+=ans[i]/3+1;
-            }
-            if(ans[i]%3==1&&ans[i]%2==1){
-                count+=ans[i]/3+1;
-            }
+            
+    
         }
         
         return count;
