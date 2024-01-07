@@ -3,8 +3,8 @@ public:
     long long minSum(vector<int>& nums1, vector<int>& nums2) {
         long long a=0;
         long long b=0;
-        long long  count1=0;
-        long long  count2=0;
+        int  count1=0;
+        int  count2=0;
         for(int i=0;i<nums1.size();i++){
            a+=nums1[i];
            
