@@ -1,29 +1,23 @@
 class Solution {
 public:
     bool isPowerOfFour(int n) {
-        int count=0;
+        cout<<n<<endl;
         if(n<=0){
             return false;
         }
         if(n==1){
             return true;
         }
-         while(n>1){
-             if(n%2==0){
-                 count++;
-                 n=n/2;
-             }
-             else{
-                 return false;
-                 break;
-             }
+        
+        if((n%4==1&&n!=1)||n%4!=0){
+            return false;
+        }
+          
+        
+          return  isPowerOfFour(n/4);
+        
 
-
-         }
-         if(count%2==0){
-             return true;
-         }
-         return false;
+        
 
     }
 };
