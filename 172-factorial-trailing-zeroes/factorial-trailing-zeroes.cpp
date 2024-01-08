@@ -5,10 +5,11 @@ public:
             return 0;
         }
         int count=0;
-        int i=1;
-       while(n/pow(5,i)!=0){
-          count+=n/pow(5,i);
-          i++;
+        int element=5;
+       while(n/element!=0){
+          count+=n/element;
+          element*=5;
+          
        }
        return count;
     }
