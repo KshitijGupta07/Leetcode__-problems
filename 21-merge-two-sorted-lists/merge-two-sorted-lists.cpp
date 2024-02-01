@@ -11,7 +11,7 @@
  
 class Solution {
 public:
-void insertattail(ListNode* &tail,int val){
+void insertattail(ListNode* &tail,int &val){
      ListNode* newnode=new ListNode(val);
      if(tail==NULL){
         tail=newnode;
@@ -24,16 +24,13 @@ void insertattail(ListNode* &tail,int val){
  
  
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        if(list1==NULL&&list2==NULL){
-            return NULL;
-        }
+        
         if(list1==NULL){
             return list2;
         }
         if(list2==NULL){
             return list1;
         }
-        
         ListNode* tail=NULL;
         ListNode* head1=list1;
         ListNode* head2=list2;
