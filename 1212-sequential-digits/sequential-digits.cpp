@@ -23,7 +23,7 @@ public:
             int element=a[i-2];
             int add=(10*(pow(10,i-1)-1))/9+1;
             while(element<=high&&element%10!=0){
-                if(element>=low&&element<=high){
+                if(element>=low){
                     ans.push_back(element);
                 }
                
