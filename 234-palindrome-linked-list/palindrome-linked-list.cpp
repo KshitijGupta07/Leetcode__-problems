@@ -53,7 +53,7 @@ public:
         ListNode* head1=head;
         ListNode* head2=reverse(middlenext);
         while(head1!=NULL&&head2!=NULL){
-            cout<<head1->val<<" "<<head2->val<<endl;
+            
             if(head1->val!=head2->val){
                 return false;
             }
