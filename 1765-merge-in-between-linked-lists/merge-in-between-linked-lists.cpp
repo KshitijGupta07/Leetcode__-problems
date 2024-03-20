@@ -24,7 +24,7 @@ public:
             head=head->next;
             count++;
         }
-       ListNode* temp2=head;
+       
         
         
         ListNode* temporary=list2;
@@ -33,8 +33,8 @@ public:
             temporary=temporary->next;
         }
         temp->next=list2;
-        temporary->next=temp2->next;
-        temp2->next=NULL;
+        temporary->next=head->next;
+        head->next=NULL;
         return list1;
 
         
