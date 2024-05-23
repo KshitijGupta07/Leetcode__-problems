@@ -18,19 +18,19 @@ public:
         if(root==NULL){
             return NULL;
         }
-        stack<TreeNode*>st;
-        while(temp!=NULL||st.empty()==false){
-               while(temp!=NULL){
-                st.push(temp);
-                if(temp->val==val){
-                    return temp;
-                }
+        
+        while(temp!=NULL){
+            if(temp->val>val){
                 temp=temp->left;
-               }
-               temp=st.top();
-               st.pop();
-               temp=temp->right;
+            }
+            else if(temp->val<val){
+                temp=temp->right;
+            }
+            else{
+                return temp;
+            }
         }
+        
         return NULL;
     }
 };
