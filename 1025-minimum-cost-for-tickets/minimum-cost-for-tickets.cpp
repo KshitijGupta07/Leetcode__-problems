@@ -23,7 +23,28 @@ public:
       dp[index]=min(option,min(option2,option3));
 return dp[index];
     }
-    
+    int tab(vector<int>&days,vector<int>&costs){
+        vector<int>dp(days.size(),-1);
+        dp[days.size()-1]=0;
+        int i=0;
+        int option=0;
+        int option2=0;
+        int option3=0;
+        for( i=days.size()-2;i>=0;i--){
+        int option=costs[0]+dp[i+1];
+        for(int index=i;index<days.size()&&days[index]<days[i]+7;index++){
+               int option2=costs[1]+dp[index];
+        }
+       
+        for(int index=i;i<days.size()&&days[index]+days[i]+30;index++){
+               int option3=costs[2]+dp[index];
+        }
+        
+        dp[i]=min(option,min(option2,option3));
+    }
+        return dp[0];
+        
+    }
     int mincostTickets(vector<int>& days, vector<int>& costs) {
         vector<int>dp(days.size(),-1);
         int index=0;
