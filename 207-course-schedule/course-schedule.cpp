@@ -1,13 +1,13 @@
 class Solution {
 public:
-void topo(unordered_map<int,vector<int>>&m, unordered_map<int,bool>&visited,int index,stack<int>&s){
+void topo(unordered_map<int,vector<int>>&m, unordered_map<int,bool>&visited,int index,vector<int>&ans){
     visited[index]=true;
     for(auto j:m[index]){
         if(visited[j]==false){
-            topo(m,visited,j,s);
+            topo(m,visited,j,ans);
         }
     }
-    s.push(index);
+    ans.push_back(index);
 }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         unordered_map<int,vector<int>>m;
@@ -15,22 +15,19 @@ void topo(unordered_map<int,vector<int>>&m, unordered_map<int,bool>&visited,int 
             m[prerequisites[i][1]].push_back(prerequisites[i][0]);
         }
         unordered_map<int,bool>visited;
-        stack<int>s;
+        vector<int>ans;
         for(int i=0;i<numCourses;i++){
            if(visited[i]==false){
-            topo(m,visited,i,s);
+            topo(m,visited,i,ans);
            }
         }
         
-        vector<int>ans;
+
         
-        while(s.empty()==false){
-            cout<<s.top()<<" ";
-            ans.push_back(s.top());
-            s.pop();
-        }
+        reverse(ans.begin(),ans.end());
         map<int,int>mpp;
         for(int i=0;i<ans.size();i++){
+            
             mpp[ans[i]]=i;
         }
         for(auto j:m){
