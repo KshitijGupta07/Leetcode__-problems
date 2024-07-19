@@ -1,6 +1,6 @@
 class Solution {
 public:
-    pair<int,int> findmin(vector<int>&v){
+    int findmin(vector<int>&v){
         int mini=INT_MAX;
         int miniindex=0;
         for(int i=0;i<v.size();i++){
@@ -9,7 +9,7 @@ public:
             miniindex=i;
            }
         }
-        return {mini,miniindex};
+        return mini;
     }
     
     vector<int> luckyNumbers (vector<vector<int>>& matrix) {
@@ -26,7 +26,7 @@ public:
                }
             }
             
-                if(maxi==findmin(matrix[maxindex]).first){
+                if(maxi==findmin(matrix[maxindex])){
                     if(matrix[maxindex][i]==maxi){
                         ans.push_back(maxi);
                     }
