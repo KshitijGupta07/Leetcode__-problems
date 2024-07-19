@@ -36,9 +36,7 @@ public:
             
 
          }
-         for(int i=0;i<matrix.size();i++){
-            cout<<findmin(matrix[i]).first<<" ";
-         }
+         
          return ans;
     }
 };
