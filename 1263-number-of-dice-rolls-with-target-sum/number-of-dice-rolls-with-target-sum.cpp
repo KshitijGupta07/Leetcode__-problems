@@ -29,8 +29,11 @@ public:
     }
     int bottomup(int n,int k, int target){
         int element=pow(10,9)+7;
-        vector<vector<int>>dp(n+1,vector<int>(target+1,0));
-        dp[0][0]=1;
+        // vector<vector<int>>dp(n+1,vector<int>(target+1,0));
+        vector<int>curr(target+1,0);
+        vector<int>prev(target+1,0);
+        prev[0]=1;
+        
         
         for(int i=1;i<=n;i++){
             
@@ -38,15 +41,16 @@ public:
                 int ans=0;
                 for(int x=1;x<=k;x++){
                     if(j>=x){
-            ans=(ans%element+dp[i-1][j-x]%element)%element;
+            ans=(ans%element+prev[j-x]%element)%element;
                     }
                 }
-                 dp[i][j]=ans%element;
+                curr[j]=ans%element;
+            
             }
-        
+          prev=curr;
            
         }
-        return dp[n][target]%element;
+        return prev[target];
     }
     int numRollsToTarget(int n, int k, int target) {
       int element=pow(10,9)+7;
