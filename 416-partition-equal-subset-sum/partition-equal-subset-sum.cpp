@@ -18,6 +18,23 @@ public:
          dp[target][index]= include|exclude;
          return dp[target][index];
     }
+    bool solvetab(vector<int>&nums,int target){
+        vector<vector<int>>dp(target+1,vector<int>(nums.size()+1,0));
+           for(int i=0;i<nums.size()+1;i++){
+            dp[0][i]=1;
+           }
+           for(int i=target;i>=0;i--){
+            for(int j=nums.size()-1;j>=0;j--){
+                bool include=false;
+                if(i>=nums[j]){
+                 include=dp[i-nums[j]][j+1];
+                }
+                bool exclude=dp[i][j+1];
+                dp[i][j]=include|exclude;
+            }
+           }
+           return dp[target][0];
+    }
     bool canPartition(vector<int>& nums) {
         int totalsum=0;
         
