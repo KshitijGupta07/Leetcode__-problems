@@ -27,10 +27,32 @@ public:
         dp[n][target]=ans%element;
         return dp[n][target]%element;
     }
+    int bottomup(int n,int k, int target){
+        int element=pow(10,9)+7;
+        vector<vector<int>>dp(n+1,vector<int>(target+1,0));
+        dp[0][0]=1;
+        
+        for(int i=1;i<=n;i++){
+            
+            for(int j=1;j<=target;j++){
+                int ans=0;
+                for(int x=1;x<=k;x++){
+                    if(j>=x){
+            ans=(ans%element+dp[i-1][j-x]%element)%element;
+                    }
+                }
+                 dp[i][j]=ans%element;
+            }
+        
+           
+        }
+        return dp[n][target]%element;
+    }
     int numRollsToTarget(int n, int k, int target) {
       int element=pow(10,9)+7;
         vector<vector<int>>dp(n+1,vector<int>(target+1,-1));
-          int ans=solve(n,k,target,dp)%element;
+          int ans=bottomup(n,k,target)%element;
+
         return ans;
     }
 };
