@@ -1,25 +1,29 @@
 class Solution {
 public:
+int countpair(vector<int>&nums,int target){
+    int left=0;
+    int ans=0;
+    for(int i=0;i<nums.size();i++){
+       while(nums[i]-nums[left]>target){
+        left++;
+       }
+            ans+=i-left;
+    }
+    return ans;
+}
     int smallestDistancePair(vector<int>& nums, int k) {
-        sort(nums.begin(), nums.end());
-        int n = nums.size();
-        int low = 0, high = nums[n - 1] - nums[0];
-
-        auto count_pairs = [&](int max_distance) {
-            int count = 0, j = 0;
-            for (int i = 0; i < n; ++i) {
-                while (j < n && nums[j] - nums[i] <= max_distance) ++j;
-                count += j - i - 1;
+        sort(nums.begin(),nums.end());
+        int start=0;
+        int end=nums[nums.size()-1]-nums[0];
+        while(start<end){
+            int mid=start+(end-start)/2;
+            if(countpair(nums,mid)<k){
+                start=mid+1;
             }
-            return count;
-        };
-
-        while (low < high) {
-            int mid = low + (high - low) / 2;
-            if (count_pairs(mid) < k) low = mid + 1;
-            else high = mid;
+            else{
+                end=mid;
+            }
         }
-
-        return low;
+        return start;
     }
 };
