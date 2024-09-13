@@ -1,24 +1,32 @@
 class Solution {
 public:
-string help(int n){
-    if(n==1){
-        return "1";
-    }
-    string temp=help(n-1);
-    string x="";
-    int count=1;
-    for(int i=0;i<temp.size()-1;i++){
-        if(temp[i]==temp[i+1]){
-            count++;
+    string countAndSay(int n) {
+        if(n==1){
+            return "1";
+        }
+        int count=1;
+        string ans=countAndSay(n-1);
+        string p="";
+        if(ans.length()==1){
+            p.push_back('1');
+            p.push_back('1');
         }
         else{
-            x+=to_string(count)+temp[i];
-            count=1;
+            for(int i=0;i<ans.length()-1;i++){
+                if(ans[i]==ans[i+1]){
+                    count++;
+                }
+                else{
+                    p+=(to_string(count));
+                    p.push_back(ans[i]);
+                    count=1;
+                }
+            }
+            p+=(to_string(count));
+            p.push_back(ans[ans.length()-1]);
         }
-    }
-    return x+to_string(count)+temp[temp.size()-1];
-}
-    string countAndSay(int n) {
-        return help(n);
+        cout<<ans<<endl;
+        return p;
+
     }
 };
