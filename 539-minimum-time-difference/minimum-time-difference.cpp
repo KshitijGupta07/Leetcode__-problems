@@ -1,51 +1,33 @@
 class Solution {
 public:
     int findMinDifference(vector<string>& timePoints) {
-        vector<int>ans;
-        int element=0;
-        for(int i=0;i<timePoints.size();i++){
-            if((timePoints[i])[0]=='0'&&(timePoints[i])[1]=='0'&&(timePoints[i])[3]=='0'&&(timePoints[i])[4]=='0'){
-            element=1440;
-            }
-            else if((timePoints[i])[0]=='0'&&(timePoints[i])[1]=='0'){
-                element=1440+((timePoints[i])[3]-'0')*10+((timePoints[i])[4]-'0');
-            }
-            else{
-             element=(((timePoints[i])[0]-'0')*10+((timePoints[i])[1]-'0'))*60+((timePoints[i])[3]-'0')*10+((timePoints[i])[4]-'0');
-        }
-            ans.push_back(element);
-        }
-        sort(ans.begin(),ans.end());
-        
-        int min=ans[1]-ans[0];
-         for(int i=2;i<ans.size();i++){
-            if(min>=ans[i]-ans[i-1]){
-                if(min<1440-min){
-                min=ans[i]-ans[i-1];
+         vector<int>ans;
+         for(int i=0;i<timePoints.size();i++){
+            int h=0;
+            int m=0;
+            if(timePoints[i][0]=='0'&&timePoints[i][1]=='0'){
+                 if(timePoints[i][3]=='0'&&timePoints[i][4]=='0'){
+                      ans.push_back(1440);
+                 }
+                 else{
+                    m=10*(timePoints[i][3]-'0')+(timePoints[i][4]-'0');
+                    ans.push_back(m);
+                 }
             }
             else{
-                min=ans[i]-ans[i-1];
+                h=60*(10*(timePoints[i][0]-'0')+(timePoints[i][1]-'0'));
+                m=10*(timePoints[i][3]-'0')+(timePoints[i][4]-'0');
+                ans.push_back(h+m);
             }
-            }
          }
-         
-         int a=0;
-         int e=ans[ans.size()-1]-ans[0];
-         if(e>1440-e){
-             e=1440-e;
+         sort(ans.begin(),ans.end());
+         for(auto j:ans){
+            cout<<j<<endl;
          }
-         cout<<e<<endl;
-         if(min>1440-min){
-             a= 1440-min;
+         int mini=INT_MAX;
+         for(int i=1;i<ans.size();i++){
+            mini=min(mini,min(1440-ans[i]+ans[i-1],ans[i]-ans[i-1]));
          }
-         else{
-             a=min;
-         }
-         cout<<a<<endl;
-         if(a>e){
-             return e;
-         }
-         return a; 
-        
+         return min(mini,min(1440-ans[ans.size()-1]+ans[0],ans[ans.size()-1]-ans[0]));
     }
 };
