@@ -1,47 +1,47 @@
 class Solution {
 public:
-  void solve(vector<int>&ans,int &rightcolumn,int &leftcolumn,int &toprow,int &bottomrow,vector<vector<int>>&matrix,bool &signal){
+  void solve(vector<vector<int>>& matrix,int &firstrow,int &lastrow,int& firstcolumn,int& lastcolumn,vector<int>&ans){
      
-    if(rightcolumn<leftcolumn||toprow>bottomrow){
-        return;
-    }
-   
-    if(signal==false){
-    for(int i=leftcolumn;i<=rightcolumn;i++){
-        ans.push_back(matrix[toprow][i]);
-    }
-       toprow=toprow+1;
-       for(int i=toprow;i<=bottomrow;i++){
-        ans.push_back(matrix[i][rightcolumn]);
-        
-       }
-       rightcolumn=rightcolumn-1;
-       signal=true;
-       solve(ans,rightcolumn,leftcolumn,toprow,bottomrow,matrix,signal);
-    }
-    else{
-        for(int i=rightcolumn;i>=leftcolumn;i--){
-            ans.push_back(matrix[bottomrow][i]);
-        }
-        bottomrow=bottomrow-1;
-        for(int i=bottomrow;i>=toprow;i--){
-            ans.push_back(matrix[i][leftcolumn]);
-        }
-        leftcolumn=leftcolumn+1;
-        signal=false;
-        solve(ans,rightcolumn,leftcolumn,toprow,bottomrow,matrix,signal);
-    }
-
+         for(int i=firstcolumn;i<=lastcolumn;i++){
+            ans.push_back(matrix[firstrow][i]);
+         }
+         firstrow=firstrow+1;
+         if(firstrow>matrix.size()||firstrow>lastrow){
+            return;
+         }
+         for(int i=firstrow;i<=lastrow;i++){
+            ans.push_back(matrix[i][lastcolumn]);
+         }
+         
+         lastcolumn=lastcolumn-1;
+         if(lastcolumn<0||lastcolumn<firstcolumn){
+            return;
+         }
+         for(int i=lastcolumn;i>=firstcolumn;i--){
+            ans.push_back(matrix[lastrow][i]);
+         }
+          lastrow=lastrow-1;
+          if(lastrow<0||lastrow<firstrow){
+            return;
+          }
+          for(int i=lastrow;i>=firstrow;i--){
+            ans.push_back(matrix[i][firstcolumn]);
+          }
+          firstcolumn=firstcolumn+1;
+          if(firstcolumn>=matrix[0].size()||firstcolumn>lastcolumn){
+            return;
+          }
+          solve(matrix,firstrow,lastrow,firstcolumn,lastcolumn,ans);
+  
   }
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int rightcolumn=matrix[0].size()-1;
-        int leftcolumn=0;
-        int toprow=0;
-        int bottomrow=matrix.size()-1;
         vector<int>ans;
-        bool signal=false;
-        solve(ans,rightcolumn,leftcolumn,toprow,bottomrow,matrix,signal);
+        int firstrow=0;
+        int lastrow=matrix.size()-1;
+        int firstcolumn=0;
+        int lastcolumn=matrix[0].size()-1;
+
+        solve(matrix,firstrow,lastrow,firstcolumn,lastcolumn,ans);
         return ans;
-        
-       }
+    }
 };
