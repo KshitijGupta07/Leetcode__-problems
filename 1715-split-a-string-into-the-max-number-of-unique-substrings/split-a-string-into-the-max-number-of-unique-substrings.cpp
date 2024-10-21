@@ -5,11 +5,11 @@ public:
         return 0;
     }
     int ans=0;
-            for(int i=index+1;i<=s.length();i++){
-                if(present[s.substr(index,i-index)]==false){
-                    present[s.substr(index,i-index)]=true;
-                    ans=max(ans,1+solve(s,i,present));
-                    present[s.substr(index,i-index)]=false;
+            for(int i=index;i<s.length();i++){
+                if(present[s.substr(index,i-index+1)]==false){
+                    present[s.substr(index,i-index+1)]=true;
+                    ans=max(ans,1+solve(s,i+1,present));
+                    present[s.substr(index,i-index+1)]=false;
                 }
             }
             return ans;
