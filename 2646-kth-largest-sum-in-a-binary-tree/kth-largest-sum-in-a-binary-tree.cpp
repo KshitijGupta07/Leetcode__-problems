@@ -12,40 +12,42 @@
 class Solution {
 public:
     long long kthLargestLevelSum(TreeNode* root, int k) {
+        priority_queue<long long >p;
         queue<TreeNode*>q;
         q.push(root);
         q.push(NULL);
-        long long  sum=0;
-
-        vector<long long>ans;
+        long long sum=0;
         while(q.empty()==false){
-            TreeNode* front=q.front();
+            TreeNode* top=q.front();
             q.pop();
-            if(front==NULL){
-                if(q.empty()==false){
-                q.push(NULL);
-                }
-              ans.push_back(sum);
-              sum=0;
+            if(top==NULL){
+                 if(q.empty()==false){
+                    q.push(NULL);
+                 }
+                    p.push(sum);
+                    sum=0;
+                
             }
             else{
-                sum+=front->val;
-                if(front->left){
-                    q.push(front->left);
-
+                sum+=top->val;
+                
+                if(top->left){
+                    q.push(top->left);
                 }
-                if(front->right){
-                    q.push(front->right);
+                if(top->right){
+                    q.push(top->right);
                 }
             }
         }
-        sort(ans.begin(),ans.end());
-        cout<<ans.size()<<endl;
-        if(ans.size()<k){
+        int count=0;
+        if(p.size()<k){
             return -1;
         }
-         return ans[ans.size()-k];
-        
-
+        while(count!=k-1){
+            
+            p.pop();
+            count++;
+        }
+        return p.top();
     }
 };
