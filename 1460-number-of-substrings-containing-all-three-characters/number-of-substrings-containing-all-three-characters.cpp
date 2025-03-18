@@ -1,14 +1,26 @@
 class Solution {
 public:
     int numberOfSubstrings(string s) {
-        vector<int>hash(3,-1);
-        int count=0;
+        int a=-1;
+        int b=-1;
+        int c=-1;
+        int ans=0;
         for(int i=0;i<s.length();i++){
-            hash[s[i]-'a']=i;
-            if(hash[0]!=-1&&hash[1]!=-1&&hash[2]!=-1){
-                count+=min(hash[0],min(hash[1],hash[2]))+1;
+            if(s[i]=='a'){
+                a=i;
             }
+            if(s[i]=='b'){
+                b=i;
+            }
+     if(s[i]=='c'){
+                c=i;
+            }
+            if(a!=-1&&b!=-1&&c!=-1){
+                ans+=min(a,min(b,c))+1; 
+            }
+
+
         }
-        return count;
+        return ans;
     }
 };
