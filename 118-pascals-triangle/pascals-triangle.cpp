@@ -1,29 +1,32 @@
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>pascal;
+        vector<vector<int>>ans;
+        vector<int>temp;
+        temp.push_back(1);
+        ans.push_back(temp);
         if(numRows==1){
-            pascal.push_back({1});
-
+            return ans;
         }
-        else if(numRows==2){
-            pascal.push_back({1});
-            pascal.push_back({1,1});
-        }
-        else{
-            pascal.push_back({1});
-              pascal.push_back({1,1});
-              for(int i=2;i<numRows;i++){
-                vector<int>p;
-                p.push_back(1);
-                for(int j=1;j<i;j++){
-                  p.push_back(pascal[i-1][j]+pascal[i-1][j-1]);
-                }
-                p.push_back(1);
-                pascal.push_back(p);
-                p.clear();
-              }
-        }
-        return pascal;
+        int count=2;
+        
+         vector<int>prev=temp;
+         temp.clear();
+         while(count<=numRows){
+            temp.push_back(1);
+            int a=count-2;
+            int i=0;
+            while(a>0){
+               temp.push_back(prev[i]+prev[i+1]); 
+               i++;
+               a-=1;
+            }
+            temp.push_back(1);
+            ans.push_back(temp);
+            prev=temp;
+            temp.clear();
+            count+=1;
+         }
+         return ans;
     }
 };
