@@ -4,32 +4,25 @@ public:
         if(nums.size()==1){
             return nums[0];
         }
-        int mini=INT_MAX;
-        bool s=false;
-    
-        for(auto j:nums){
-            if(j>0){
-                s=true;
-                break;
-            }
-            else{
-                mini=min(mini,abs(j));
-            }
+        int maxi=INT_MIN;
+        for(int i=0;i<nums.size();i++){
+                maxi=max(maxi,nums[i]);
         }
-        int sum=0;
-        int m=0;
-        for(int i =0;i<nums.size();i++){
-            sum+=nums[i];
-            m=max(m,sum);
-            if(sum<0){
-                
-        
-                sum=0;
-            }
+        if(maxi<=0){
+            return maxi;
         }
-        if(s==true){
-            return m;
+        int maxsum=INT_MIN;
+        int ans=0;
+        for(int i=0;i<nums.size();i++){
+              ans+=nums[i];
+              cout<<ans<<" "<<maxsum<<endl;
+              if(ans<0){
+                maxsum=max(maxsum,ans);
+                ans=0;
+              }
+              maxsum=max(maxsum,ans);
         }
-        return -mini;
+        maxsum=max(maxsum,ans);
+        return maxsum;
     }
 };
