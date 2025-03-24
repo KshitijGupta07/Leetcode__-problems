@@ -8,61 +8,56 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
 class Solution {
 public:
-     ListNode* reverse(ListNode* &head){
-         if(head==NULL||head->next==NULL){
-             return head;
-         }
-         ListNode* prev=NULL;
-         ListNode* current=head;
-         ListNode* forward=NULL;
-         while(current!=NULL){
-             forward=current->next;
-             current->next=prev;
-             prev=current;
-             current=forward;
-         }
-         return prev;
-
-     }
+    ListNode* reverse(ListNode* head){
+        ListNode* past=NULL;
+        ListNode* curr=head;
+        ListNode* future=NULL;
+        
+        while(curr!=NULL){
+             future=curr->next;
+             curr->next=past;
+             past=curr;
+             curr=future;
+        }
+        return past;
+    }
     bool isPalindrome(ListNode* head) {
         if(head->next==NULL){
             return true;
         }
-        if(head->next->next==NULL){
-            if(head->val!=head->next->val){
-                return false;
-            }
-            else{
-                return true;
-            }
-        }
-        ListNode* slow=head;
+        ListNode* temp=head;
         ListNode* fast=head;
-        while(fast->next!=NULL&&fast->next->next!=NULL){
+        ListNode* slow=head;
+        int count=0;
+        while(fast!=NULL&&fast->next!=NULL){
             slow=slow->next;
             fast=fast->next->next;
+            count++;
+        }
+        ListNode* head2=slow;
+        if(fast!=NULL){
+            count++;
+            head2=head2->next;
+            
         }
         
-        ListNode* middlenext=slow->next;
-        slow->next=NULL;
+         head2=reverse(slow);
         
-        
-        ListNode* head1=head;
-        ListNode* head2=reverse(middlenext);
-        while(head1!=NULL&&head2!=NULL){
+       
+    
+        while(head2!=NULL){
             
-            if(head1->val!=head2->val){
+            if(head->val!=head2->val){
                 return false;
             }
-            head1=head1->next;
+    
+            head=head->next;
             head2=head2->next;
         }
         return true;
-
         
-
+        
     }
 };
