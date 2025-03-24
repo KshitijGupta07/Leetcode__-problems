@@ -11,70 +11,56 @@
 class Solution {
 public:
     int length(ListNode* head){
-        int count=0;
         ListNode* temp=head;
+        int length=0;
         while(temp!=NULL){
             temp=temp->next;
-            count++;
+            length+=1;
         }
-        return count;
-    }
-    void insertattail(ListNode* &tail,int val){
-        ListNode* newnode=new ListNode(val);
-        tail->next=newnode;
-        tail=newnode;
+        return length;
     }
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-       ListNode* head1=l1;
-       ListNode* head2=l2;
-       while(head1!=NULL&&head2!=NULL){
-          if(length(head1)>length(head2)){
-              head1->val+=head2->val;
-              head1=head1->next;
-              head2=head2->next;
-          }
-          else{
-              head2->val+=head1->val;
-              head1=head1->next;
-              head2=head2->next;
-          }
-       }
-
-       
-       if(head1!=NULL){
-           head1=l1;
-           while(head1->next!=NULL){
-               if(head1->val>9){
-                   head1->val=(head1->val)%10;
-                   head1->next->val++;
-               }
-               head1=head1->next;
-           }
-           if(head1->val>9){
-               head1->val=(head1->val)%10;
-               insertattail(head1,1);
-           }
-       }
-      else  {
-           head2=l2;
-           while(head2->next!=NULL){
-               if(head2->val>9){
-                   head2->val=(head2->val)%10;
-                   head2->next->val++;
-               }
-               head2=head2->next;
-           }
-           if(head2->val>9){
-               head2->val=(head2->val)%10;
-               insertattail(head2,1);
-           }
-       }
-       
-       if(length(l1)>length(l2)){
-           return l1;
-       }
-       return l2;
-
-
+        int a=length(l1);
+        int b=length(l2);
+        
+        ListNode* head=NULL;
+        ListNode* temp=NULL;
+         while(l1!=NULL&&l2!=NULL){
+                if(head==NULL){
+                    head=new ListNode(l1->val+l2->val);
+                    temp=head;
+                }
+                else{
+                    temp->next=new ListNode(l1->val +l2->val);
+                    temp=temp->next;
+                }
+                l1=l1->next;
+                l2=l2->next;
+         }
+         while(l1!=NULL){
+            temp->next=new ListNode(l1->val);
+            l1=l1->next;
+            temp=temp->next;
+         }
+         while(l2!=NULL){
+            temp->next=new ListNode(l2->val);
+            l2=l2->next;
+            temp=temp->next;
+         }
+         temp=head;
+         cout<<temp->val<<endl;
+         while(temp->next!=NULL){
+            if(temp->val>=10){
+                temp->next->val+=(temp->val)/10;
+                temp->val=temp->val%10;
+            }
+            temp=temp->next;
+         }
+         if(temp->val>=10){
+            temp->next=new ListNode(temp->val/10);
+            temp->val=temp->val%10;
+         }
+        return head;
+            
     }
 };
