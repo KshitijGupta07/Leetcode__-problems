@@ -10,34 +10,34 @@
  */
 class Solution {
 public:
-ListNode* nodebeforetail(ListNode*&head){
-    ListNode* temp=head;
-    while(temp->next->next!=NULL){
-        temp=temp->next;
+    int length(ListNode* head){
+        int length=0;
+        while(head!=NULL){
+            head=head->next;
+            length++;
+        }
+        return length;
     }
-    return temp;
-}
+    ListNode* tail(ListNode* head){
+        while(head->next->next!=NULL){
+            head=head->next;
+        }
+        return head;
+    }
     ListNode* rotateRight(ListNode* head, int k) {
-        if(head==NULL||head->next==NULL||k==0){
+        if(head==NULL||head->next==NULL){
             return head;
         }
-        ListNode* a=head;
-        int count=0;
-        while(a->next!=NULL){
-            a=a->next;
-            count++;
+        int l=length(head);
+        k=k%l;
+        while(k>0){
+            ListNode* pt=tail(head);
+            ListNode* t=pt->next;
+            t->next=head;
+            head=t;
+            pt->next=NULL;
+            k-=1;
         }
-        
-        
-          k=k%(count+1);
-          while(k!=0){
-              ListNode* beforetail=nodebeforetail(head);
-              ListNode* tail=beforetail->next;
-              beforetail->next=NULL;
-              tail->next=head;
-              head=tail;
-              k--;
-          }
-          return head;
+        return head;
     }
 };
