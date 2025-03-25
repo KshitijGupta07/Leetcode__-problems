@@ -1,41 +1,37 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-               vector<vector<int>> ans;
-    sort(nums.begin(), nums.end());
-    // nums[i]+nums[j]+nums[k]=0
-    for (int i = 0; i < nums.size() - 2; ++i)
-    {
-        if (i == 0 || (i > 0 && nums[i] != nums[i - 1]))
-        {
-            int lo = i + 1, hi = nums.size() - 1;
-            int target = -nums[i];
-            while (lo < hi)
-            {
-                if (nums[lo] + nums[hi] == target)
-                {
-                    vector<int> temp;
-                    temp = {nums[i], nums[lo], nums[hi]};
-                    ans.push_back(temp);
-                    while (lo < hi && nums[lo] == nums[lo + 1])
-                    {
-                        lo++;
-                    }
-                    while (lo < hi && nums[hi] == nums[hi - 1])
-                    {
-                        hi--;
-                    }
-                    lo++, hi--;
+        vector<vector<int>>ans;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<nums.size()-2;i++){
+            if(i>0&&nums[i]==nums[i-1]){
+                continue;
+            }
+            int start=i+1;
+            int end=nums.size()-1;
+            int target=nums[i];
+            while(start<end){
+                if(start>i+1&&nums[start]==nums[start-1]){
+                    start++;
+                    continue;
                 }
-                else if(nums[lo]+nums[hi]<target){
-                    lo++;
+                if(end<nums.size()-1&&nums[end]==nums[end+1]){
+                    end--;
+                    continue;
                 }
-                else{
-                    hi--;
-                }
+                else if(nums[start]+nums[end]+target==0){
+                         ans.push_back({target,nums[start],nums[end]});
+                         end--;
+                         start++;
+                 }
+                 else if(nums[start]+nums[end]+target>0){
+                    end--;
+                 }
+                 else{
+                    start++;
+                 }
             }
         }
-    }
-    return ans;
+        return ans;
     }
 };
