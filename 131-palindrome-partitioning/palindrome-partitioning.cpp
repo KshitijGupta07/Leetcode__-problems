@@ -1,33 +1,34 @@
 class Solution {
 public:
-  bool isreverse(string s,int start,int end){
+   bool check(string a){
+    int start=0;
+    int end=a.length()-1;
     while(start<=end){
-        if(s[start]!=s[end]){
+        if(a[start]!=a[end]){
             return false;
         }
         start++;
         end--;
     }
     return true;
-  }
-    void solve(int index,vector<vector<string>>&ans,vector<string>temp,string s,int n){
-        if(index>=n){
-            ans.push_back(temp);
-        }
-        for(int end=index;end<n;end++){
-              if(isreverse(s,index,end)==true){
-                temp.push_back(s.substr(index,end-index+1));
-                solve(end+1,ans,temp,s,s.length());
-                 temp.pop_back();
-              }
-        }
-
-    }
+   }
+   void solve(string s,int i,vector<string>&temp,vector<vector<string>>&ans){
+      if(i>=s.length()){
+        ans.push_back(temp);
+      }
+      for(int x=i;x<s.length();x++){
+            string t=s.substr(i,x-i+1);
+            if(check(t)){
+                temp.push_back(t);
+                solve(s,x+1,temp,ans);
+                temp.pop_back();
+            }
+      }
+   }
     vector<vector<string>> partition(string s) {
         vector<vector<string>>ans;
         vector<string>temp;
-        int n=s.length();
-        solve(0,ans,temp,s,n);
+        solve(s,0,temp,ans);
         return ans;
     }
 };
