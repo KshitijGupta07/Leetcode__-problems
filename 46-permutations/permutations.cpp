@@ -1,42 +1,20 @@
 class Solution {
 public:
-//    void solve(vector<vector<int>>&final,vector<int>&nums,vector<int>&temp){
-//       if(temp.size()==nums.size()){
-//         final.push_back(temp);
-//         return;
-//       }
-//       for(int i=0;i<nums.size();i++){
+    void solve(vector<int>&nums,int j,vector<vector<int>>&ans){
+        if(j>=nums.size()){
+            ans.push_back(nums);
+            return;
+        }
+        for(int i=j;i<nums.size();i++){
+            swap(nums[i],nums[j]);
+            solve(nums,j+1,ans);
+            swap(nums[i],nums[j]);
+        }
         
-//         map<int,bool>m;
-//         if(temp.size()>0){
-//             for(int i=0;i<temp.size();i++){
-//                 m[temp[i]]=true;
-//             }
-//         }
-//         if(m[nums[i]]==false){
-//      temp.push_back(nums[i]);
-//             solve(final,nums,temp);
-//         temp.pop_back();
-//         }
-        
-//       }
-//    }
-  void solve(vector<int>&nums,vector<vector<int>>&final,int index){
-    if(index>=nums.size()){
-        final.push_back(nums);
     }
-    for(int j=index;j<nums.size();j++){
-        swap(nums[j],nums[index]);
-        solve(nums,final,index+1);
-        //backtrack the elements and bring them to original position
-        swap(nums[index],nums[j]);
-    }
-  }
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>>final;
-        vector<int>temp;
-        
-        solve(nums,final,0);
-          return final;
+        vector<vector<int>>ans;
+        solve(nums,0,ans);
+        return ans;
     }
 };
