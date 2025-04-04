@@ -1,43 +1,88 @@
 class Solution {
-    vector<vector<string>> ans;
-    public:
-
-    vector<vector<string>> solveNQueens(int n) {
-        vector<string> sol;
-        for (int i=0; i<n; i++) {
-            string s;
-            for (int j=0; j<n; j++) s.push_back('.');
-            sol.push_back(s);
-        }
-
-        solve(n, 0, sol);
-        return ans;
-    }
-
-    void solve(int n, int k, vector<string>& sol) {
-        if (k == n) {
-            ans.push_back(sol);
-            return;
-        }
-
-        for (int i=0; i<n; i++) {
-            if (isValid(n, k, i, sol)) {
-                sol[k][i] = 'Q';
-                solve(n, k+1, sol);
-                sol[k][i] = '.';
+public:
+    bool safe(int i,int j,vector<string>&temp,int n){
+        int count=1;
+        int count1=1;
+        int count2=1;
+        
+        for(int x=0;x<n;x++){
+            if(temp[i][x]=='Q'&&x!=j){
+                count++;
             }
         }
-    }
-
-    bool isValid(int size, int k, int i, vector<string>& sol) {
-        int m = k-1, left = i-1, right = i+1;
-        while(m>=0) {
-            if (left >= 0 and sol[m][left--] == 'Q') return false;
-            if (right < size and sol[m][right++] == 'Q') return false;
-            if (sol[m][i] == 'Q') return false;
-            m--;
+        for(int x=0;x<n;x++){
+            if(temp[x][j]=='Q'&&x!=i){
+                count1++;
+                
+            }
         }
-
-        return true;
+        int a=i;
+        int b=j;
+        while(a>-1&&b>-1){
+          if(temp[a][b]=='Q'&&a!=i&&b!=j){
+            count2++;
+          }
+          a-=1;
+          b-=1;
+        }
+        a=i;
+        b=j;
+        while(a<n&&b<n){
+            if(temp[a][b]=='Q'&&a!=i&&b!=j){
+                count2++;
+            }
+            a++;
+            b++;
+        }
+        a=i;
+        b=j;
+        while(a<n&&b>-1){
+            if(temp[a][b]=='Q'&&a!=i&&b!=j){
+                count2++;
+            }
+            a++;
+            b--;
+        }
+        a=i;
+        b=j;
+        while(a>-1&&b<n){
+             if(temp[a][b]=='Q'&&a!=i&&b!=j){
+                count2++;
+            }
+            a--;
+            b++;
+        }
+        cout<<count1<<" "<<count2<<" "<<count<<endl;
+        if(count1<2&&count2<2&&count<2){
+            return true;
+        }
+        return false;
+    }
+    void solve(int n,int i,vector<string>&temp,vector<vector<string>>&ans){
+        if(i>=n){
+            ans.push_back(temp);
+            return;
+        }
+        for(int j=0;j<n;j++){
+             if(safe(i,j,temp,n)){
+                temp[i][j]='Q';
+                solve(n,i+1,temp,ans);
+                temp[i][j]='.';
+             }
+             
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>>ans;
+        vector<string>temp;
+        for(int i=0;i<n;i++){
+            string x="";
+            for(int j=0;j<n;j++){
+              x.push_back('.');
+            }
+            temp.push_back(x);
+        }
+        solve(n,0,temp,ans);
+        return ans;
     }
 };
