@@ -1,42 +1,44 @@
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-         double x=0;
-         double y=0;
-         int i=0;
-         int j=0;
-         int m=nums1.size();
-         int n=nums2.size();
-        int count=(m+n)/2 ;
-        while(count>=0){
-            y=x;
-            if(i<m&&j<n){
-                if(nums1[i]>nums2[j]){
-                    x=nums2[j];
-                    j++;
+        int m=nums1.size();
+        int n=nums2.size();
+        if(m>n){
+            return findMedianSortedArrays(nums2,nums1);
+        }
+        int start=0;
+        int end=m;
+        int total=(m+n+1)/2;
+        
+        while(start<=end){
+           
+            int mid=(start+end)/2 ;
+            int left=total-mid;
+             int l1=INT_MIN;
+        int l2=INT_MIN;
+        int r1=INT_MAX;
+        int r2=INT_MAX;
+            if(mid<m) r1=nums1[mid];
+            if(left<n)r2=nums2[left];
+            if(mid-1>=0)l1=nums1[mid-1];
+            if(left-1>=0)l2=nums2[left-1];
+            if(l1<=r2&&l2<=r1){
+                if((m+n)%2==1){
+                    return max(l1,l2)/1.00;
                 }
                 else{
-                    x=nums1[i];
-                    i++;
+                    l1=max(l1,l2);
+                    r1=min(r1,r2);
+                    return (l1 +r1)/2.00;
                 }
             }
-            else if(i<m){
-                x=nums1[i];
-                i++;
+            else if(l1>r2){
+                 end=mid-1;
             }
             else{
-                x=nums2[j];
-                j++;
+                start=mid +1;
             }
-            
-            count--;
         }
-        count=(m+n) ;
-        if(count%2==1){
-            return max(x,y)/1.000 ;
-        }
-        
-    
-        return (x+y)/2.000;
+        return 0.000;
     }
 };
