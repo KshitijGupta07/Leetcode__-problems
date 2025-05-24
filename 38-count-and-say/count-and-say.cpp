@@ -4,29 +4,22 @@ public:
         if(n==1){
             return "1";
         }
-        int count=1;
         string ans=countAndSay(n-1);
-        string p="";
-        if(ans.length()==1){
-            p.push_back('1');
-            p.push_back('1');
-        }
-        else{
-            for(int i=0;i<ans.length()-1;i++){
-                if(ans[i]==ans[i+1]){
-                    count++;
-                }
-                else{
-                    p+=(to_string(count));
-                    p.push_back(ans[i]);
-                    count=1;
-                }
-            }
-            p+=(to_string(count));
-            p.push_back(ans[ans.length()-1]);
-        }
         cout<<ans<<endl;
-        return p;
-
+        int count=1;
+        string x="";
+        for(int i=0;i<ans.length()-1;i++){
+            if(ans[i]==ans[i+1]){
+                count++;
+            }
+            else{
+                x.push_back(count+'0');
+                x.push_back(ans[i]);
+                count=1;
+            }
+        }
+        x.push_back(count+'0');
+        x.push_back(ans.back());
+        return x;
     }
 };
