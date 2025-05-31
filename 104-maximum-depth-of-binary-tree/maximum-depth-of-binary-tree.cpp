@@ -11,28 +11,17 @@
  */
 class Solution {
 public:
-     void traverse(TreeNode* root,int count,vector<int>&ans){
-        if(root==NULL){
-            ans.push_back(count);
-            count--;
-            return;
-        }
-        count++;
-        traverse(root->left,count,ans);
-        
-        traverse(root->right,count,ans);
-        
+   int height(TreeNode* root){
+     if(root==NULL){
+        return 0;
      }
+     int left=1+height(root->left);
+     int right=1+height(root->right);
+     int ans=max(left,right);
+     return ans;
+   }
     int maxDepth(TreeNode* root) {
-        int count=0;
-        vector<int>ans;
-        traverse(root,count,ans);
-        int max=INT_MIN;
-        for(int i=0;i<ans.size();i++){
-            if(max<=ans[i]){
-                max=ans[i];
-            }
-        }
-        return max;
+        int ans=height(root);
+        return ans;
     }
 };
