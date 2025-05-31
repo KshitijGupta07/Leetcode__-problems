@@ -15,21 +15,24 @@ public:
     if(root==NULL){
         return 0;
     }
-   int leftheight=height(root->left);
-   int rightheight=height(root->right);
-    return max(leftheight,rightheight)+1;
+    int left=height(root->left);
+    int right=height(root->right);
+    return 1+max(left,right);
   }
-    bool isBalanced(TreeNode* root) {
-        if(root==NULL){
-            return true;
-        }
-        bool left=isBalanced(root->left);
-        bool right=isBalanced(root->right);
-        bool flag=abs(height(root->left)-height(root->right))<=1;
-        if(left&&right&&flag){
-            return true;
-        }
+   bool solve(TreeNode* root){
+      if(root==NULL){
+        return true;
+      }
+    
+      int l=height(root->left);
+      int r=height(root->right);
+      if(abs(l-r)>1){
         return false;
-        
+      }
+      return solve(root->left)&&solve(root->right);
+   }
+    bool isBalanced(TreeNode* root) {
+       bool ans=solve(root); 
+       return ans;
     }
 };
