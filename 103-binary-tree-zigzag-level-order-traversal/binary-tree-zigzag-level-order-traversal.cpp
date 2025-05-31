@@ -12,53 +12,51 @@
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        vector<vector<int>>ans;
         if(root==NULL){
-            return ans;
+            return {};
         }
+        if(root->left==NULL&&root->right==NULL){
+            return {{root->val}};
+        }
+        vector<vector<int>>ans;
+        ans.push_back({{root->val}});
+        vector<int>node;
         queue<TreeNode*>q;
         q.push(root);
-        bool flag=true;
-        
-
+        q.push(NULL);
+        bool flag=false;
         while(q.empty()==false){
-            int size=q.size();
-            stack<int>st;
-            vector<int>output;
-            TreeNode* temp=q.front();
-            for(int i=0;i<size;i++){
-            temp=q.front();
+            TreeNode* front=q.front();
             q.pop();
-            if(flag==true){
-            output.push_back(temp->val);
+            if(front==NULL){
+                if(q.empty()==false){
+                    q.push(NULL);
+                    if(flag==false){
+                    reverse(node.begin(),node.end());
+                    flag=true;
+                    }
+                    else{
+                        flag=false;
+                    }
+                    ans.push_back(node);
+                    node.clear();
+                }
             }
-            else{
-                st.push(temp->val);
-            }
-             if(temp->left!=NULL){
-            q.push(temp->left);
-
-        }
-        if(temp->right!=NULL){
-            q.push(temp->right);
-        }
             
-        }
-        
-        
-        
-       
-        flag=flag^true^false;
-        while(st.empty()==false){
-            output.push_back(st.top());
-            st.pop();
-        }
-        ans.push_back(output);
-        
+                else{
+                    if(front->left){
+                        q.push(front->left);
+                        node.push_back(front->left->val);
+                    }
+                    if(front->right){
+                        q.push(front->right);
+                        node.push_back(front->right->val);
+                    }
 
-          
-
-        }
+                }
+                
+            }
+        
         return ans;
     }
 };
