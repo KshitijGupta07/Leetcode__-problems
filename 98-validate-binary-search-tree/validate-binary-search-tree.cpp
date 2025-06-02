@@ -11,29 +11,22 @@
  */
 class Solution {
 public:
-    bool isBST(long long  min,long long  max,TreeNode* root){
-            if(root==NULL){
-                return true;
-            }
-            if(root->val<max&&root->val>min){
-                
-                bool left=isBST(min,root->val,root->left);
-                bool right=isBST(root->val,max,root->right);
-                return left&&right;
-            }
-             
-            
-                return false;
-            
-            
+   void inorder(vector<int>&temp,TreeNode* root){
+    if(root==NULL){
+        return;
     }
+    inorder(temp,root->left);
+     temp.push_back(root->val);
+     inorder(temp,root->right);
+   }
     bool isValidBST(TreeNode* root) {
-        long long  max=+100000000000;
-        long long  min=-100000000000;
-    if(root->left==NULL&&root->right==NULL){
+        vector<int>temp;
+        inorder(temp,root);
+        for(int i=0;i<temp.size()-1;i++){
+            if(temp[i]>=temp[i+1]){
+                return false;
+            }
+        }
         return true;
-    }
-      bool s=  isBST(min,max,root);
-        return s;
     }
 };
