@@ -11,21 +11,39 @@
  */
 class Solution {
 public:
-    bool mirror(TreeNode* l,TreeNode* r){
-        if(l!=NULL&&r==NULL){
-            return false;
-        }
-        if(l==NULL&&r!=NULL){
-            return false;
-        }
-        if(l==NULL&&r==NULL){
+    bool isSymmetric(TreeNode* root) {
+        if(root->left==NULL&&root->right==NULL){
             return true;
         }
-        return (l->val==r->val)&&mirror(l->left,r->right)&&mirror(l->right,r->left);
-    }
-    bool isSymmetric(TreeNode* root) {
-        
-        bool ans=mirror(root->left,root->right);
-        return ans;
+        TreeNode* l=root->left;
+        TreeNode* r=root->right;
+        queue<TreeNode*>q;
+        q.push(l);
+        q.push(r);
+        while(q.empty()==false){
+            TreeNode* f1=q.front();
+            q.pop();
+            TreeNode* f2=q.front();
+            q.pop();
+            if(f1==NULL&&f2==NULL){
+                continue;
+            }
+            if((f1!=NULL&&f2==NULL)||(f1==NULL&&f2!=NULL)||(f1->val!=f2->val)){
+                return false;
+            }
+            if(f1!=NULL){
+            q.push(f1->left);
+            }
+            if(f2!=NULL){
+            q.push(f2->right);
+            }
+            if(f1!=NULL){
+            q.push(f1->right);
+            }
+            if(f2!=NULL){
+                q.push(f2->left);
+            }
+        }
+        return true;
     }
 };
