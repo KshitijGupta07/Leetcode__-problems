@@ -22,41 +22,35 @@ public:
         if(root==NULL){
             return NULL;
         }
-        
         queue<Node*>q;
-        vector<Node*>v;
-        vector<vector<Node*>>a;
         q.push(root);
         q.push(NULL);
-        
+        root->next=NULL;
         while(q.empty()==false){
-            Node* front=q.front();
-            q.pop();
-            if(front==NULL){
+              int a=q.size();
+              for(int i=0;i<a;i++){
+                  Node* front=q.front();
+                  q.pop();
+                  if(a>1&&i<a-1){
+                    front->next=q.front();
+                  }
+              
+              if(front==NULL){
                 if(q.empty()==false){
-                 q.push(NULL);
+                    q.push(NULL);
                 }
-                 a.push_back(v);
-                 v.clear();
-            }
-            else{
-                v.push_back(front);
+              }
+              else{
                 if(front->left){
                     q.push(front->left);
                 }
                 if(front->right){
                     q.push(front->right);
-                    
                 }
-            }
-        }
-    
-        for(int i=0;i<a.size();i++){
-            for(int j=0;j<a[i].size()-1;j++){
-                a[i][j]->next=a[i][j+1];
-            }
-        
+              }
+              }
         }
         return root;
+
     }
 };
