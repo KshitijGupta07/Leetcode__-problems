@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-     int search(vector<int>& inorder,int element){
+     int search(vector<int>&inorder,int element){
         for(int i=0;i<inorder.size();i++){
             if(element==inorder[i]){
                 return i;
@@ -19,20 +19,21 @@ public:
         }
         return -1;
      }
-    TreeNode* solve(vector<int>& preorder, vector<int>& inorder,int &index,int inorderstart,int inorderend){
-        if(index>=preorder.size()||inorderstart>inorderend){
+     TreeNode* tree(vector<int>&preorder,vector<int>&inorder,int& index,int i,int j){
+        cout<<index<<" "<<i<<" "<<j<<endl;
+        if(index>=preorder.size()||i>j){
             return NULL;
         }
-        int element=preorder[index++];
-        int pos=search(inorder,element);
-        TreeNode* temp=new TreeNode(element);
-        temp->left=solve(preorder,inorder,index,inorderstart,pos-1);
-        temp->right=solve(preorder,inorder,index,pos+1,inorderend);
+        
+        int pos=search(inorder,preorder[index]);
+        TreeNode* temp=new TreeNode(preorder[index++]);
+        temp->left=tree(preorder,inorder,index,i,pos-1);
+        temp->right=tree(preorder,inorder,index,pos+1,j);
         return temp;
-    }
+     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         int index=0;
-        TreeNode* ans=solve(preorder,inorder,index,0,preorder.size()-1);
+        TreeNode* ans=tree(preorder,inorder,index,0,preorder.size()-1);
         return ans;
     }
 };
