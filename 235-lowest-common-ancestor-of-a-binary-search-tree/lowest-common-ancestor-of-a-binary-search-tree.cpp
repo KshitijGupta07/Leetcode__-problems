@@ -10,26 +10,31 @@
 
 class Solution {
 public:
-TreeNode* solve(TreeNode* root,TreeNode* p,TreeNode* q){
-    if(root==NULL){
-        return NULL;
-    }
-    if(root==p||root==q){
-        return root;
-    }
-    if(p->val>root->val&&q->val<root->val){
-        return root;
-    }
-    if(p->val<root->val&&q->val>root->val){
-        return root;
-    }
-    if(p->val>root->val&&q->val>root->val){
-        return solve(root->right,p,q);
-    }
-    return solve(root->left,p,q);
-}
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        TreeNode* ans=solve(root,p,q);
-        return ans;
+        
+        TreeNode* temp=root;
+        while(temp!=p&&temp!=q){
+            cout<<temp->val<<endl;
+            if(temp->val==p->val||temp->val==q->val){
+            return temp;
+        }
+          else  if(temp->val>p->val&&temp->val<q->val){
+                return temp;
+            }
+           else if(temp->val<p->val&&temp->val>q->val){
+                return temp;
+            }
+           else if(temp->val>p->val&&temp->val>q->val){
+                temp=temp->left;
+           }
+           else{
+            temp=temp->right;
+           }
+        }
+        if(temp==p||temp==q){
+            return temp;
+        }
+
+        return NULL;
     }
 };
