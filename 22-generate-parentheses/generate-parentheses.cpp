@@ -1,44 +1,43 @@
 class Solution {
 public:
-   bool check(string ans){
-      stack<char>st;
-      for(int i=0;i<ans.length();i++){
-           if(st.empty()){
-            st.push(ans[i]);
-           }
-           else{
-            if(st.top()=='('&&ans[i]==')'){
-                st.pop();
+   bool check(string s){
+    string x="";
+      for(auto j:s){
+        if(x.empty()){
+            x.push_back(j);
+        }
+        else{
+            if(x.back()=='('&&j==')'){
+                x.pop_back();
             }
             else{
-                st.push(ans[i]);
+                x.push_back(j);
             }
-           }
+        }
       }
-      return  st.empty();
+      return x.empty();
    }
-    void solve(int n ,string ans,vector<string>&m){
-        if(n<=0){
-            m.push_back(ans);
-            return;
-        }
-        ans.push_back('(');
-        solve(n-1,ans,m);
-        ans.pop_back();
-        ans.push_back(')');
-        solve(n-1,ans,m);
+   void generate(vector<string>&ans,int n,string temp){
+       if(temp.length()==2*n){
         
+           if(check(temp)){
+            cout<<temp<<endl;
+            ans.push_back(temp);
+            
+           }
+           return;
+       }
+       temp.push_back('(');
+       generate(ans,n,temp);
+       temp.pop_back();
+       temp.push_back(')');
+       generate(ans,n,temp);
 
-    }
+   }
     vector<string> generateParenthesis(int n) {
-        vector<string>m;
         vector<string>ans;
-        solve(2*n,"",m);
-        for(auto j:m){
-            if(check(j)){
-               ans.push_back(j);
-            }
-        }
+        int count=1;
+        generate(ans,n,"");
         return ans;
     }
 };
