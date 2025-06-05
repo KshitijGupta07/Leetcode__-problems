@@ -23,9 +23,12 @@ public:
            if(check(temp)){
             cout<<temp<<endl;
             ans.push_back(temp);
+            return;
             
            }
+           else{
            return;
+           }
        }
        temp.push_back('(');
        generate(ans,n,temp);
