@@ -1,28 +1,50 @@
 class Solution {
 public:
+   int sum(vector<int>&nums,int i,int j,int mid){
+      int s=0;
+      int left=INT_MIN;
+      int right=INT_MIN;
+      for(int x=mid;x>=i;x--){
+        s+=nums[x];
+        left=max(left,s);
+      }
+      s=0;
+      for(int x=mid+1;x<=j;x++){
+        s+=nums[x];
+        right=max(right,s);
+      }
+      
+      
+    return left+right;
+   }
+   int solve(vector<int>&nums,int i,int j){
+    if(i>j){
+       return  INT_MIN;
+    }
+    if(i==j){
+        return nums[j];
+    }
+      int mid=(i+j)/2 ;
+      int left=solve(nums,i,mid);
+      int right=solve(nums,mid+1,j);
+      int total=sum(nums,i,j,mid);
+      
+      return max(total,max(left,right));
+   }
     int maxSubArray(vector<int>& nums) {
-        if(nums.size()==1){
-            return nums[0];
-        }
+        int ans=solve(nums,0,nums.size()-1);
+        int total=0;
         int maxi=INT_MIN;
-        for(int i=0;i<nums.size();i++){
-                maxi=max(maxi,nums[i]);
-        }
-        if(maxi<=0){
-            return maxi;
-        }
-        int maxsum=INT_MIN;
-        int ans=0;
-        for(int i=0;i<nums.size();i++){
-              ans+=nums[i];
-              cout<<ans<<" "<<maxsum<<endl;
-              if(ans<0){
-                maxsum=max(maxsum,ans);
-                ans=0;
-              }
-              maxsum=max(maxsum,ans);
-        }
-        maxsum=max(maxsum,ans);
-        return maxsum;
+        // for(int i=0;i<nums.size();i++){
+        //     total+=nums[i];
+        //      maxi=max(maxi,total);
+        //     cout<<total<<endl;
+        //     if(total<0){
+                  
+        //            total=0;
+        //     }
+        // }
+        // return maxi;
+        return ans;
     }
 };
