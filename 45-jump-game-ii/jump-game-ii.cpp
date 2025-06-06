@@ -1,22 +1,20 @@
-#include <vector>
-#include <algorithm>
-using namespace std;
-
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        int jumps = 0;
-        int currentEnd = 0;
-        int farthest = 0;
+        if(nums.size()==1){
+            return 0;
+        }
+        int farther=0;
+        int jump=0;
 
-        for (int i = 0; i < nums.size() - 1; ++i) {
-            farthest = max(farthest, i + nums[i]);
-            if (i == currentEnd) {
-                ++jumps;
-                currentEnd = farthest;
+        int current=0;
+        for(int i=0;i<nums.size()-1;i++){
+            farther=max(farther,nums[i]+i);
+            if(i==current){
+                jump++;
+                current=farther;
             }
         }
-
-        return jumps;
+        return jump;
     }
 };
