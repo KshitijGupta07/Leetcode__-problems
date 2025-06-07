@@ -1,91 +1,24 @@
 class Solution {
 public:
-//    int solve(vector<int>&nums,int n,vector<int>&dp){
-//        if(n==0){
-//         return nums[0];
-//        }
-//        if(n<0){
-//         return 0;
-//        }
-//        if(dp[n]!=-1){
-//         return dp[n];
-//        }
-//        int incl=solve(nums,n-2,dp)+nums[n];
-//        int excl=solve(nums,n-1,dp);
-//        dp[n]=max(incl,excl);
-//        return dp[n];
-//    }
-   int bottomup(vector<int>&nums,int n){
-    if(n<0){
+   int solve(vector<int>&nums,int i,int n,vector<int>&dp){
+    if(i>=n){
         return 0;
     }
-    
-    vector<int>dp(n+1,0);
-    dp[0]=nums[0];
-    int incl=0;
-    int excl=0;
-    bool check=false;
-    bool c=false;
-    for(int i=1;i<=n-1;i++){
-        
-        if(i-2<0){
-            incl=nums[i];
-            excl=dp[i-1];
-
-        }
-        else{
-            
-            incl=dp[i-2]+nums[i];
-            excl=dp[i-1];
-            
-        }
-        
-         
-        dp[i]=max(incl,excl);
-         
+    if(dp[i]!=-1){
+        return dp[i];
     }
-    
-    return dp[n-1];
+    int inc=nums[i]+solve(nums,i+2,n,dp);
+    int exc=solve(nums,i+1,n,dp);
+    return dp[i]=max(inc,exc);
    }
-   int bottomup2(vector<int>&nums,int n){
-      if(n<0){
-        return 0;
-    }
-    
-    vector<int>dp(n+1,0);
-    dp[1]=nums[1];
-    int incl=0;
-    int excl=0;
-    bool check=false;
-    bool c=false;
-    for(int i=2;i<=n;i++){
-        
-              
-            
-            incl=dp[i-2]+nums[i];
-            excl=dp[i-1];
-            
-        
-        
-         
-        dp[i]=max(incl,excl);
-         
-    }
-    
-    return dp[n];
-   }
-   
     int rob(vector<int>& nums) {
-        int n=nums.size()-1;
-        if(n==0){
+        if(nums.size()==1){
             return nums[0];
         }
-        if(n==1){
-            return max(nums[0],nums[1]);
-        }
-        // vector<int>dp(n+1,-1);
-        int ans=bottomup(nums,n);
-        int ans2=bottomup2(nums,n);
+        vector<int>dp1(nums.size()-1,-1);
+        vector<int>dp2(nums.size(),-1);
+        int ans=solve(nums,0,nums.size()-1,dp1);
+        int ans2=solve(nums,1,nums.size(),dp2);
         return max(ans,ans2);
     }
 };
