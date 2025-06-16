@@ -1,10 +1,8 @@
 class Solution {
 public:
-   bool check(string a){
-    int start=0;
-    int end=a.length()-1;
+   bool check(string s,int start,int end){
     while(start<=end){
-        if(a[start]!=a[end]){
+        if(s[start]!=s[end]){
             return false;
         }
         start++;
@@ -12,23 +10,27 @@ public:
     }
     return true;
    }
-   void solve(string s,int i,vector<string>&temp,vector<vector<string>>&ans){
-      if(i>=s.length()){
+   void solve(vector<vector<string>>&ans,vector<string>temp,string s,int i){
+    if(i==s.length()){
         ans.push_back(temp);
-      }
-      for(int x=i;x<s.length();x++){
-            string t=s.substr(i,x-i+1);
-            if(check(t)){
-                temp.push_back(t);
-                solve(s,x+1,temp,ans);
-                temp.pop_back();
-            }
-      }
+        return;
+    }
+    string t="";
+       for(int index=i;index<s.length();index++){
+          t.push_back(s[index]);
+           if(check(s,i,index)){
+              temp.push_back(t);
+              
+              solve(ans,temp,s,index+1);
+              temp.pop_back();
+           }
+       }
    }
     vector<vector<string>> partition(string s) {
         vector<vector<string>>ans;
         vector<string>temp;
-        solve(s,0,temp,ans);
+        int i=0;
+        solve(ans,temp,s,i);
         return ans;
     }
 };
