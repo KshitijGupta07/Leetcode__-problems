@@ -1,31 +1,30 @@
 class Solution {
 public:
-   void dfs(int i,vector<vector<int>>&graph,unordered_map<int,bool>&visit){
-     visit[i]=true;
-     for(auto j:graph[i]){
-        if(visit[j]==false){
-            dfs(j,graph,visit);
+   void dfs(vector<vector<int>>&graph,vector<bool>&visited,int i){
+    visited[i]=true;
+    for(auto j:graph[i]){
+        if(visited[j]==false){
+            dfs(graph,visited,j);
         }
-     }
+    }
    }
     int findCircleNum(vector<vector<int>>& isConnected) {
-        
-        int m=isConnected.size();
-        int n=isConnected[0].size();
-        vector<vector<int>>graph(n+1);
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(i!=j&&isConnected[i][j]==1){
-                   graph[i+1].push_back(j+1);
+        vector<vector<int>>graph(isConnected.size());
+        for(int i=0;i<isConnected.size();i++){
+            for(int j=0;j<isConnected[i].size();j++){
+                if(isConnected[i][j]==1){
+                    graph[i].push_back(j);
+                    graph[j].push_back(i);
                 }
             }
         }
-        unordered_map<int,bool>visit;
+        int n=isConnected.size();
         int count=0;
-        for(int i=1;i<=n;i++){
-            if(visit[i]==false){
-                dfs(i,graph,visit);
-                count+=1;
+        vector<bool>visited(n,false);
+        for(int i=0;i<n;i++){
+            if(visited[i]==false){
+                dfs(graph,visited,i);
+                count++;
             }
         }
         return count;
