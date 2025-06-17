@@ -26,24 +26,24 @@ public:
             return NULL;
         }
         if(node->neighbors.size()==0){
-            Node* clone=new Node(node->val);
-            return clone;
+            return new Node(node->val);
         }
-        map<Node*,Node*>mpp;
-        mpp[node]=new Node(node->val,{});
+        Node* ans=new Node(node->val);
+        map<Node*,Node*>m;
+        m[node]=ans;
         queue<Node*>q;
         q.push(node);
         while(q.empty()==false){
-            Node* current=q.front();
+            Node* front=q.front();
             q.pop();
-            for(auto x:current->neighbors){
-                if(mpp.find(x)==mpp.end()){
-                    mpp[x]=new Node(x->val,{});
-                    q.push(x);
+            for(auto j:front->neighbors){
+                if(m.find(j)==m.end()){
+                    m[j]=new Node(j->val);
+                    q.push(j);
                 }
-                mpp[current]->neighbors.push_back(mpp[x]);
-            }
+                m[front]->neighbors.push_back(m[j]);
+            } 
         }
-        return mpp[node];
+        return m[node];
     }
 };
