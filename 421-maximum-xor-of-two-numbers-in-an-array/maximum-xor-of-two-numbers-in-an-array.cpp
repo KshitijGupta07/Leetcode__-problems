@@ -1,59 +1,49 @@
 class Solution {
 public:
    struct Node{
-     Node* links[2];
-      bool contains(int bit){
-        return links[bit]!=NULL;
-      }
-      void put(int bit,Node* node){
-        links[bit]=node;
-      }
-      Node* get(int bit){
-        return links[bit];
-      }
-   };
-   class trie{
-    public:
-       Node* root;
-       trie(){
-        root =new Node();
-       }
-       public:
-       void insert(int a){
-        Node* node=root;
-        for(int i=31;i>=0;i--){
-            int bit=(a>>i)&1;
-            if(node->contains(bit)==false){
-                node->put(bit,new Node());
-            }
-            node=node->get(bit);
-        }
-       }
-       public:
-       int max(int a){
-         Node* node=root;
-         int ans=0;
-         for(int i=31;i>=0;i--){
-            int bit=(a>>i)&1;
-            if(node->contains(1-bit)){
-                   ans=ans|(1<<i);
-                node=node->get(1-bit);
-            }
-            else{
-                 node=node->get(bit);
-            }
+         Node* link[2];
+         
+
+         bool contain(int bit){
+           return link[bit]!=NULL;
          }
-         return ans;
-       }
+         void put(int bit,Node* node){
+            link[bit]=node;
+         }
+         Node* get(int bit){
+            return link[bit];
+         }
+        
    };
     int findMaximumXOR(vector<int>& nums) {
-        trie t;
-        for(auto j:nums){
-            t.insert(j);
+        Node* root=new Node();
+        for(int i=0;i<nums.size();i++){
+            Node* node=root;
+            for(int j=30;j>=0;j--){
+                int bit=((nums[i]>>j)&1);
+                
+                if(node->contain(bit)==false){
+                    node->put(bit,new Node());
+                }
+                node=node->get(bit);
+            }
         }
         int ans=0;
-        for(auto j:nums){
-             ans=max(ans,t.max(j));
+        for(int i=0;i<nums.size();i++){
+            Node* node=root;
+            int m=0;
+            for(int j=30;j>=0;j--){
+                int bit=((nums[i]>>j)&1);
+                 if(node->contain(1-bit)){
+                      m=m+(1<<j);
+                      node=node->get(1-bit);
+                 }
+                 else{
+                    node=node->get(bit);
+                 }
+
+            }
+            ans=max(ans,m);
         }
         return ans;
     }
