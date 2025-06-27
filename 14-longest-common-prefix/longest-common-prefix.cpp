@@ -1,83 +1,65 @@
-class trienode{
-    public:
-     char ch;
-     trienode* children[26];
-     bool isend;
-     trienode(char data){
-        ch=data;
-        for(int i=0;i<26;i++){
-            children[i]=NULL;
-        }
-        isend=false;
-     }
-};
-     class trie{
-    public:
-    trienode* root;
-    trie(){
-        root=new trienode('0');
-    }
-     void insertit(trienode* root,string word){
-            if(word.length()==0){
-                root->isend=true;
-                return;
-            }
-            int index=word[0]-'a';
-            trienode*child;
-            if(root->children[index]==NULL){
-                 child=new trienode(word[0]);
-                 root->children[index]=child;
-            }
-            else{
-                child=root->children[index];
-            }
-            insertit(child,word.substr(1));
-
-        }
-        void insert(string word){
-            insertit(root,word);
-        }
-        void prefix(trienode* root,string &ans){
-            
-            if(root->isend){
-                return ;
-            }
-            cout<<ans<<endl;
-            int count=0;
-            trienode* child;
-            for(int i=0;i<26;i++){
-                if(root->children[i]!=NULL){
-                    child=root->children[i];
-                     count++;
-                }
-            }
-            if(count>1){
-                return;
-            }
-            else{
-                
-                ans.push_back(child->ch);
-            }
-             prefix(child,ans);
-
-        }
-        void find(string &ans){
-             prefix(root,ans);
-        }
-
-};
-        
-
-
 class Solution {
 public:
-    string longestCommonPrefix(vector<string>& strs) {
-        trie* t=new trie();
-        for(auto j:strs){
-            t->insert(j);
+    struct Node{
+        Node* link[26];
+        bool isend=false;
+           
+        void insert(char ch,Node* node){
+            link[ch-'a']=node;
         }
-        string ans="";
-        t->find(ans);
+        bool contain(char ch){
+            return link[ch-'a']!=NULL;
+        }
+        Node* get(char ch){
+            return link[ch-'a'];
+        }
+        void setend(){
+            isend=true;
+        }
+        bool getend(){
+            return isend;
+        }
+    };
+    
+          
+    
+    string longestCommonPrefix(vector<string>& strs) {
+        Node* trie=new Node();
+        string ans=strs[0];
+
+        
+            Node* node=trie;
+            for(int i=0;i<strs[0].length();i++){
+                if(node->contain(strs[0][i])==false){
+                    node->insert(strs[0][i],new Node());
+                }
+                node=node->get(strs[0][i]);
+            }
+            int len=0;
+             
+            
+            for(int i=1;i<strs.size();i++){
+                string temp="";
+                Node* node=trie;
+                for(int j=0;j<strs[i].length();j++){
+                    
+                     if(node->contain(strs[i][j])){
+                        node=node->get(strs[i][j]);
+                        temp.push_back(strs[i][j]);
+                             
+                     }
+                     else{
+                        break;
+                     }
+                }
+                if(ans.length()>=temp.length()){
+                ans=temp;
+                }
+            }
+
+        if(strs.size()==1){
+            return strs[0];
+        }
         return ans;
     }
 };
