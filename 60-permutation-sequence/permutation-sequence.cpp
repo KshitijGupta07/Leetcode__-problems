@@ -1,60 +1,36 @@
 class Solution {
 public:
-   int factorial(int a){
-    if(a==0){
+   int factorial(int n){
+    if(n==1){
         return 1;
     }
-   int ans=1;
-    for(int j=1;j<=a;j++){
-        ans*=j;
+    int product=1;
+    for(int i=1;i<=n;i++){
+        product*=i;
     }
-    return ans;
+    return product;
    }
     string getPermutation(int n, int k) {
-        int i=0;
         string ans="";
-        map<int,int>m;
-        for(int i=1;i<=n;i++){
-            m[i]=1;
-
+        vector<int>fix(n+1,0);
+        for(int i=0;i<n+1;i++){
+            fix[i]=i;
         }
-        vector<int>c;
+        n=n-1;
         while(k>0){
-            
-            int a=factorial(n-1);
-            int count=1;
-            while(a*count<k){
-                count++;
-            }
-            c.push_back(count);
-            if(a*count==k){
-            k-=(count)*(a);
-            }
-            else{
-                k-=(count-1)*(a);
-            }
-
-            n-=1;
+        int a=k/factorial(n);
+         int b=k%factorial(n);
+         int c=a+min(1,b);
+          ans.push_back(fix[c]+'0');
+          fix.erase(fix.begin()+c);
+          k=k-a*factorial(n);
+         n-=1;
         }
-        for(int i=0;i<c.size();i++){
-               int x=c[i];
-             for(auto j:m){
-                x-=1;
-                if(x==0){
-                    ans.push_back(j.first+'0');
-                    m.erase(j.first);
-                    break;
-                }
-             }
+        fix.erase(fix.begin());
+        reverse(fix.begin(),fix.end());
+        for(auto j:fix){
+            ans.push_back(j+'0');
         }
-        string ans2="";
-        for(auto j:m){
-               ans2.push_back(j.first+'0');
-
-        }
-          reverse(ans2.begin(),ans2.end());
-            
-        
-        return ans+ans2;
+        return ans;
     }
 };
