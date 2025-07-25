@@ -4,56 +4,49 @@ public:
         if(nums.size()<4){
             return {};
         }
-        vector<vector<int>>ans;
         sort(nums.begin(),nums.end());
+        vector<vector<int>>ans;
         for(int i=0;i<nums.size()-3;i++){
             if(i>0&&nums[i]==nums[i-1]){
                 continue;
             }
+        
             for(int j=i+1;j<nums.size()-2;j++){
-                if(j>i+1&&nums[j]==nums[j-1]){
+                  if(j-1>i&&nums[j]==nums[j-1]){
                     continue;
-                }
-                int start=j+1;
-                int end=nums.size()-1;
-                long long  su=nums[i]+nums[j];
-                
-               bool check=false;
-                while(start<end){
-                      long long su2=nums[start]+nums[end];
-                    if(su+su2==target){
-                        
-                         ans.push_back({nums[i],nums[j],nums[start],nums[end]});
-                        
-                        
-                         start++;
-                         end--;
-                    }
-                    else if(su+nums[start]+nums[end]>target){
-                        end--;
-                    }
-                    else{
+                  }
+                 int sum=nums[i]+nums[j];
+                 int start=j+1;
+                 int end=nums.size()-1;
+                 while(start<end){
+                     
+                     if(start-1>j&&nums[start]==nums[start-1]){
                         start++;
-                    }
-
-                }
-
+                        continue;
+                     }
+                     if(end+1<nums.size()-1&&nums[end]==nums[end+1]){
+                        end--;
+                        continue;
+                     }
+                     long long element=nums[start]+nums[end];
+                     long long x=target;
+                     long long y=sum;
+                     long long element2=x-y;
+                     if(element==element2){
+                        ans.push_back({nums[i],nums[j],nums[start],nums[end]});
+                        start++;
+                        end--;
+                     }
+                     else if(element>element2){
+                        end--;
+                     }
+                     else{
+                        start++;
+                     }
+                     
+                 }
             }
         }
-        if(ans.empty()==true){
-            return {};
-        }
-        vector<vector<int>>finalans;
-
-        finalans.push_back(ans[0]);
-        for(int i=1;i<ans.size();i++){
-            if(finalans.back()==ans[i]){
-                continue;
-            }
-            else{
-                finalans.push_back(ans[i]);
-            }
-        }
-        return finalans;
+        return ans;
     }
 };
