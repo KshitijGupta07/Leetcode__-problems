@@ -7,31 +7,33 @@ public:
             if(i>0&&nums[i]==nums[i-1]){
                 continue;
             }
-            int start=i+1;
-            int end=nums.size()-1;
-            int target=nums[i];
-            while(start<end){
-                if(start>i+1&&nums[start]==nums[start-1]){
+             int start=i+1;
+             int end=nums.size()-1;
+             while(start<end){
+                while(start-1>i&&start<nums.size()&&nums[start]==nums[start-1]){
                     start++;
-                    continue;
                 }
-                if(end<nums.size()-1&&nums[end]==nums[end+1]){
+                while(end+1<nums.size()-1&&end>=0&&nums[end]==nums[end+1]){
                     end--;
-                    continue;
                 }
-                else if(nums[start]+nums[end]+target==0){
-                         ans.push_back({target,nums[start],nums[end]});
-                         end--;
-                         start++;
-                 }
-                 else if(nums[start]+nums[end]+target>0){
-                    end--;
-                 }
-                 else{
+                if(start<end){
+                if(nums[start]+nums[end]+nums[i]==0){
+                    ans.push_back({nums[i],nums[start],nums[end]});
                     start++;
-                 }
-            }
+                    end--;
+                }
+                else if(nums[start]+nums[end]+nums[i]>0){
+                    end--;
+                }
+                else{
+                    start++;
+                }
+                }
+             }
+             
         }
         return ans;
     }
+    
+
 };
