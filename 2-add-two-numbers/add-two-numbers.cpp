@@ -10,57 +10,49 @@
  */
 class Solution {
 public:
-    int length(ListNode* head){
-        ListNode* temp=head;
-        int length=0;
-        while(temp!=NULL){
-            temp=temp->next;
-            length+=1;
-        }
-        return length;
-    }
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        int a=length(l1);
-        int b=length(l2);
-        
         ListNode* head=NULL;
         ListNode* temp=NULL;
-         while(l1!=NULL&&l2!=NULL){
-                if(head==NULL){
-                    head=new ListNode(l1->val+l2->val);
-                    temp=head;
-                }
-                else{
-                    temp->next=new ListNode(l1->val +l2->val);
-                    temp=temp->next;
-                }
-                l1=l1->next;
-                l2=l2->next;
-         }
-         while(l1!=NULL){
-            temp->next=new ListNode(l1->val);
-            l1=l1->next;
+        while(l1!=NULL&&l2!=NULL){
+              if(temp==NULL){
+                head=new ListNode(l1->val+l2->val);
+                 temp=head;
+              }
+              else{
+                
+                temp->next=new ListNode(l1->val+l2->val);
+                temp=temp->next;
+              }
+              l1=l1->next;
+              l2=l2->next;
+        }
+        if(l1!=NULL){
+            temp->next=l1;
             temp=temp->next;
-         }
-         while(l2!=NULL){
-            temp->next=new ListNode(l2->val);
-            l2=l2->next;
-            temp=temp->next;
-         }
-         temp=head;
-         cout<<temp->val<<endl;
-         while(temp->next!=NULL){
-            if(temp->val>=10){
-                temp->next->val+=(temp->val)/10;
-                temp->val=temp->val%10;
+        }
+        if(l2!=NULL){
+           temp->next=l2;
+           temp=temp->next;
+        }
+        int carry=0;
+        temp=head;
+       ListNode* prev=NULL;
+        while(temp!=NULL){
+            if(temp->val+carry>9){
+                temp->val=((temp->val+carry)%10);
+                carry=1;
             }
+            else{
+                temp->val=temp->val+carry;
+                carry=0;
+            }
+            prev=temp;
             temp=temp->next;
-         }
-         if(temp->val>=10){
-            temp->next=new ListNode(temp->val/10);
-            temp->val=temp->val%10;
-         }
+        }
+        if(carry==1){
+           prev->next=new ListNode(1); 
+        }
+        cout<<carry<<endl;
         return head;
-            
     }
 };
