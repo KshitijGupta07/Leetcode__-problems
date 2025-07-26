@@ -14,31 +14,33 @@ public:
         if(head==NULL||head->next==NULL){
             return head;
         }
-        int count=0;
-        ListNode* temp=head;
-        while(temp!=NULL){
-            temp=temp->next;
-            count++;
+        int counter=0;
+        ListNode* temp2=head;
+        while(temp2!=NULL){
+            temp2=temp2->next;
+            counter++;
         }
-        if(count<k){
+        if(counter<k){
             return head;
         }
         ListNode* past=NULL;
         ListNode* curr=head;
         ListNode* future=NULL;
-        count=0;
-        while(count!=k){
+        int count=0;
+        while(count!=k&&curr!=NULL){
             future=curr->next;
             curr->next=past;
             past=curr;
             curr=future;
             count++;
         }
-        temp=past;
+        ListNode* temp=past;
         while(temp->next!=NULL){
             temp=temp->next;
         }
         temp->next=reverseKGroup(future,k);
+        
         return past;
+
     }
 };
