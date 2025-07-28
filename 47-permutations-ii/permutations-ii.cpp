@@ -1,33 +1,26 @@
 class Solution {
 public:
-  void solve(vector<int>&nums,vector<vector<int>>&final,int index){
-    if(index>=nums.size()){
-        final.push_back(nums);
+    void solve(int i,vector<int>&nums,vector<vector<int>>&ans){
+    if(i>=nums.size()){
+        ans.push_back(nums);
+        return;
     }
-    map<int,int>mpp;
-    for(int j=index;j<nums.size();j++){
-        
-        if(mpp.find(nums[j])!=mpp.end()){
-           continue;
-        }
-        else{
-            mpp[nums[j]]++;
-               swap(nums[j],nums[index]);
-         solve(nums,final,index+1);
-      
-        //backtrack the elements and bring them to original position
-        swap(nums[index],nums[j]);
+      map<int,bool>m;
+      for(int j=i;j<nums.size();j++){
+        if(m[nums[j]]==false){
+            m[nums[j]]=true;
+            swap(nums[i],nums[j]);
+            solve(i+1,nums,ans);
+            swap(nums[i],nums[j]);
             
         }
         
-    
-    }
-  }
+      
+    }}
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-         vector<vector<int>>final;
-        
-        
-        solve(nums,final,0);
-          return final;
+        sort(nums.begin(),nums.end());
+        vector<vector<int>>ans;
+        solve(0,nums,ans);
+        return ans;
     }
 };
