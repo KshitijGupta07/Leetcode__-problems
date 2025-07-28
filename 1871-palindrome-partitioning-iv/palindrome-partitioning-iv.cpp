@@ -1,57 +1,52 @@
 class Solution {
 public:
-
-   bool solve(string s,int count,int index,vector<vector<int>>&dp,vector<vector<bool>>&pal){
-    if(index>=s.length()){
-        return false;
-    }
-    
-    if(count==2){
-    
-        
-        if(pal[index][s.length()-1]){
-            return true;
-        }
-        else{
+  bool check(string& s, int start ,int end){
+      while(start<end){
+        if(s[start]!=s[end]){
             return false;
         }
-    }
-    if(dp[index][count]!=-1){
-        return dp[index][count];
-    }
-    
-   
-    bool l=false;
-     for(int i=index;i<s.length();i++){
-        
-        if(pal[index][i]){
-            
-            if(count<2){
-            count+=1;
-            }
-            l|=solve(s,count,i+1,dp,pal);
-            if(l==true){
-                return true;
-            }
-            count-=1;
-            
+        start++;
+        end--;
+      }
+      return true;
+  }
+    bool solve(string& s,int i,int count,vector<vector<int>>&dp,vector<vector<bool>>&dp2){
+        if(i>=s.length()){
+           return false;
         }
-     }
-     return dp[index][count]=l;  
+         if(count==2){
+           if(dp2[i][s.length()-1]==true){
+            return true;
+           }
+           else{
+            return false;
+           }
+        }
+        if(dp[i][count]!=-1){
+            return dp[i][count];
+        }
        
-   }
-    bool checkPartitioning(string s) {
-    vector<vector<bool>>pal(s.length(),vector<bool>(s.length(),false));
-    for(int i=s.length()-1;i>=0;i--){
-        for(int j=i;j<s.length();j++){
-            if(s[i]==s[j]&&(j-i<=2||pal[i+1][j-1]==true)){
-                pal[i][j]=true;
+        bool ans=false;
+        
+        for(int index=i;index<s.length();index++){
+            if(check(s,i,index)){
+                ans=ans||solve(s,index+1,count+1,dp,dp2);
             }
         }
+        return dp[i][count]=ans;
     }
-    vector<vector<int>>dp(s.length(),vector<int>(3,-1));
-        int count=0;
-        bool ans=solve(s,count,0,dp,pal);
+    bool checkPartitioning(string s) {
+        int i=0;
+        vector<vector<int>>dp(s.length(),vector<int>(3,-1));
+        vector<vector<bool>>dp2(s.length(),vector<bool>(s.length(),false));
+        for(int i=s.length()-1;i>=0;i--){
+            for(int j=s.length()-1;j>=i;j--){
+                if(s[i]==s[j]&&(j-i<=2||dp2[i+1][j-1])){
+                     dp2[i][j]=true;
+                }
+            }
+        }
+        bool ans=solve(s,i,0,dp,dp2);
         return ans;
     }
 };
