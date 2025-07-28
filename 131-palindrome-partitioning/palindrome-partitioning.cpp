@@ -1,36 +1,40 @@
 class Solution {
-public:
-   bool check(string s,int start,int end){
-    while(start<=end){
+public: 
+   bool check(string s){
+    int start=0;
+    int end=s.length()-1;
+      while(start<=end){
         if(s[start]!=s[end]){
-            return false;
+              return false;
         }
         start++;
         end--;
-    }
-    return true;
+      }
+      return true;
    }
-   void solve(vector<vector<string>>&ans,vector<string>temp,string s,int i){
-    if(i==s.length()){
-        ans.push_back(temp);
-        return;
+    void solve(string s,vector<string>temp,vector<vector<string>>&ans,int i){
+        if(i>=s.length()){
+            ans.push_back(temp);
+            return;
+        }
+        string t="";
+        for(int index=i;index<s.length();index++){
+            t.push_back(s[index]);
+            if(check(t)){
+                temp.push_back(t);
+                solve(s,temp,ans,index+1);
+                temp.pop_back();
+            }
+            
+
+        }
+
     }
-    string t="";
-       for(int index=i;index<s.length();index++){
-          t.push_back(s[index]);
-           if(check(s,i,index)){
-              temp.push_back(t);
-              
-              solve(ans,temp,s,index+1);
-              temp.pop_back();
-           }
-       }
-   }
     vector<vector<string>> partition(string s) {
-        vector<vector<string>>ans;
-        vector<string>temp;
         int i=0;
-        solve(ans,temp,s,i);
+        vector<string>temp;
+        vector<vector<string>>ans;
+        solve(s,temp,ans,i);
         return ans;
     }
 };
