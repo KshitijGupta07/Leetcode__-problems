@@ -1,91 +1,70 @@
 class MedianFinder {
 public:
-    priority_queue<int>p;
-    priority_queue<int,vector<int>,greater<int>>g;
-    
+ priority_queue<int>p;
+        priority_queue<int,vector<int>,greater<int>>q;
     MedianFinder() {
-        
-        
+       
     }
     
     void addNum(int num) {
-    
-           
-        if(p.empty()){
-           p.push(num); 
-          
+        if(q.empty()==true){
+            q.push(num);
         }
         else{
-           if(num>p.top()){
-            g.push(num);
-           }
-           else{
-            p.push(num);
-           }
+            if(q.top()>num){
+                p.push(num);
+            }
+            else{
+                q.push(num);
+            }
         }
-        
-
-          
     }
-
     
     double findMedian() {
-        int a=p.size()-g.size();
-        if(p.size()==g.size()){
-            double a=p.top();
-            double b=g.top();
-            return (a+b)/2.00;
-        }
-        else if(g.size()-p.size()==1){
-            return g.top()/1.00;
-        }
-        else if(p.size()-g.size()==1){
-            return p.top()/1.00;
-        }
-        
-        else if(p.size()>g.size()){
-           
-            while(p.size()-g.size()>1){
-                g.push(p.top());
-                p.pop();
-            }
+        if(p.size()==q.size())return double(p.top()+q.top())/2.00;
+        else if(p.size()-1==q.size()){
             
-            if(p.size()==g.size()){
-                  double a=p.top();
-            double b=g.top();
-            return (a+b)/2.00;
-            }
-    
-                else if(g.size()-p.size()==1){
-            return g.top()/1.00;
+                return p.top()/1.000;
+            
         }
-        else if(p.size()-g.size()==1){
-            return p.top()/1.00;
+        else if(q.size()-1==p.size()){
+            
+                return q.top()/1.000;
+            
+        }
+        else{
+            if(p.size()>q.size()){
+                while(p.size()-q.size()>1){
+                    q.push(p.top());
+                    p.pop();
+                }
+                
+            }
+            else{
+               while(q.size()-p.size()>1){
+                    p.push(q.top());
+                    q.pop();
+                } 
+        
+            }
+                     if(p.size()==q.size())return double(p.top()+q.top())/2.00;
+        else if(p.size()-1==q.size()){
+            
+                return p.top()/1.000;
+            
+        }
+        else if(q.size()-1==p.size()){
+            
+                return q.top()/1.000;
+            
+            
         }
 
         }
-        else if(g.size()>p.size()){
-               while(g.size()-p.size()>1){
-                p.push(g.top());
-                g.pop();
-            }
-            if(p.size()==g.size()){
-                  double a=p.top();
-            double b=g.top();
-            return (a+b)/2.00;
-            }
-          else if(g.size()-p.size()==1){
-            return g.top()/1.00;
-        }
-        else if(p.size()-g.size()==1){
-            return p.top()/1.00;
-        }
-    
-        
-        }
-        
-        return -1.0000;
+            
 
+        
+        return 0.000;
     }
 };
 
