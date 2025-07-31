@@ -15,48 +15,40 @@ public:
         if(root==NULL){
             return {};
         }
-        if(root->left==NULL&&root->right==NULL){
-            return {{root->val}};
-        }
         vector<vector<int>>ans;
-        ans.push_back({{root->val}});
-        vector<int>node;
+        vector<int>temp;
         queue<TreeNode*>q;
         q.push(root);
         q.push(NULL);
-        bool flag=false;
+        bool signal=false;
         while(q.empty()==false){
             TreeNode* front=q.front();
             q.pop();
             if(front==NULL){
                 if(q.empty()==false){
                     q.push(NULL);
-                    if(flag==false){
-                    reverse(node.begin(),node.end());
-                    flag=true;
-                    }
-                    else{
-                        flag=false;
-                    }
-                    ans.push_back(node);
-                    node.clear();
                 }
-            }
-            
+                if(signal==false){
+                ans.push_back(temp);
+                signal=true;
+                }
                 else{
-                    if(front->left){
-                        q.push(front->left);
-                        node.push_back(front->left->val);
-                    }
-                    if(front->right){
-                        q.push(front->right);
-                        node.push_back(front->right->val);
-                    }
-
+                     reverse(temp.begin(),temp.end());
+                     ans.push_back(temp);
+                     signal=false;
                 }
-                
+                temp.clear();
             }
-        
+            else{
+                temp.push_back(front->val);
+                if(front->left){
+                    q.push(front->left);
+                }
+                if(front->right){
+                    q.push(front->right);
+                }
+            }
+        }
         return ans;
     }
 };
