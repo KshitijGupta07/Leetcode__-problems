@@ -11,48 +11,49 @@
  */
 class Solution {
 public:
-   void dfs(TreeNode* &root,map<pair<int,int>,vector<int>>&m,int num,int level){
-       if(root==NULL){
-        return;
-       }
-       m[{level,num}].push_back(root->val);
-       level=level+1;
-       dfs(root->left,m,num-1,level);
-       dfs(root->right,m,num+1,level);
-   }
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        map<pair<int,int>,vector<int>>m;
-        int level=0;
-        dfs(root,m,0,level);
-      
-        map<int,vector<int>>mp;
-       vector<vector<int>>ans;
-       for(auto j:m){
-    
-        vector<int>temp=j.second;
-        sort(temp.begin(),temp.end());
-        m[j.first]=temp;
+        vector<vector<int>>ans;
+        queue<pair<TreeNode*,pair<int,int>>>q;
+        q.push({root,{0,0}});
+        q.push({NULL,{-1,-1}});
+        map<pair<int,int>,vector<TreeNode*>>m;
         
-       }
-       for(auto j:m){
-         for(auto k:j.second){
-            cout<<k<<" ";
-         }
-         cout<<endl;
-       }
-       for(auto j:m){
-          
-        for(auto k:j.second){
-            
-             mp[j.first.second].push_back(k);
+        while(q.empty()==false){
+            TreeNode* front=q.front().first;
+            int x=q.front().second.first;
+            int y=q.front().second.second;
+            q.pop();
+            if(front==NULL){
+               if(q.empty()==false){
+                  q.push({NULL,{-1,-1}});
+               }
+            }
+            else{
+                m[{x,y}].push_back(front);
+                if(front->left){
+                    q.push({front->left,{x+1,y-1}});
+                }
+                if(front->right){
+                    q.push({front->right,{x+1,y+1}});
+                }
+            }
+
         }
-        cout<<endl;
-       }
-       for(auto j:mp){
+        map<int,vector<pair<int,int>>>mp;
+        for(auto j:m){
+            for(auto k:j.second)
+            mp[j.first.second].push_back({j.first.first,k->val});
+        }
         
-         ans.push_back(j.second);
-        
-       }
-       return ans;
+        for(auto j:mp){
+            sort(j.second.begin(),j.second.end());
+            vector<int>temp;
+            for(auto k:j.second){
+               temp.push_back(k.second);
+            }
+            ans.push_back(temp);
+        }
+         
+        return ans;
     }
 };
