@@ -11,26 +11,28 @@
  */
 class Solution {
 public:
-TreeNode* solve(vector<int>&inorder,vector<int>& postorder,int &index,int start,int end,map<int,int>&m){
-    cout<<index<<" "<<start<<" "<<end<<endl;
-    if(index<0||start>end){
-        return NULL;
+    TreeNode* solve(vector<int>&inorder,vector<int>&postorder,int &index,map<int,int>&m,int i,int j){
+        if(index<0||i>j){
+            return NULL;
+        }
+        cout<<index<<endl;
+        
+        int x=m[postorder[index]];
+        TreeNode* root=new TreeNode(postorder[index--]);
+
+        root->right=solve(inorder,postorder,index,m,x+1,j);
+        root->left=solve(inorder,postorder,index,m,i,x-1);
+        return root;
+
     }
-    int element=postorder[index];
-    int pos=m[element];
-    index--;
-    TreeNode* temp=new TreeNode(element);
-     temp->right=solve(inorder,postorder,index,pos+1,end,m);
-    temp->left=solve(inorder,postorder,index,start,pos-1,m);
-    return temp;
-}
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        int index=postorder.size()-1;
         map<int,int>m;
         for(int i=0;i<inorder.size();i++){
             m[inorder[i]]=i;
         }
-        int index=inorder.size()-1;
-        TreeNode*ans=solve(inorder,postorder,index,0,inorder.size()-1,m);
+        
+        TreeNode* ans=solve(inorder,postorder,index,m,0,postorder.size()-1);
         return ans;
     }
 };
