@@ -11,82 +11,50 @@
  */
 class Solution {
 public:
-   TreeNode* find(TreeNode* &root,int start){
-      queue<TreeNode*>q;
-      q.push(root);
-      while(q.empty()==false){
-        TreeNode* front=q.front();
-        q.pop();
-        if(front->val==start){
-            return front;
+    void traverse(TreeNode* root,TreeNode* prev,map<TreeNode*,TreeNode*>&m,TreeNode* &find,int start,int&count){
+        if(root==NULL){
+               return;
         }
-        else{
-            if(front->left){
-                q.push(front->left);
-                
-            }
-            if(front->right){
-                q.push(front->right);
-            }
+        m[root]=prev;
+        count++;
+        if(root->val==start){
+            find=root;
         }
-      }
-      return NULL;
-   }
-    void parentmap(unordered_map<TreeNode*,TreeNode*>&parent,TreeNode* &root){
-            parent[root]=NULL;
-            queue<TreeNode*>q;
-            q.push(root);
-            while(q.empty()==false){
-                TreeNode* front=q.front();
-                q.pop();
-                if(front->left){
-                   q.push(front->left);
-                   parent[front->left]=front;
-                }
-                if(front->right){
-                    q.push(front->right);
-                    parent[front->right]=front;
-                }
-            }
+        traverse(root->left,root,m,find,start,count);
+        traverse(root->right,root,m,find,start,count);
     }
     int amountOfTime(TreeNode* root, int start) {
-        unordered_map<TreeNode*,TreeNode*>parent;
-        parentmap(parent,root);
+        map<TreeNode*,TreeNode*>parent;
+        int count=0;
+        TreeNode* find=NULL;
+        traverse(root,NULL,parent,find,start,count);
         queue<TreeNode*>q;
-        unordered_map<TreeNode*,bool>visited;
-        TreeNode* starting=find(root,start);
-        q.push(starting);
-        int ans=0;
-        visited[starting]=true;
-        while(q.empty()==false){
-            int a=q.size();
-             bool flag=false;
-             for(int i=0;i<a;i++){
+        q.push(find);
+        map<TreeNode*,bool>visited;
+        int timer=0;
+         while(q.empty()==false){
+            
+             int a=q.size();
+             for(int i=0;i<a;i++ ){
                  TreeNode* front=q.front();
-           
-            q.pop();
-            if(front->left!=NULL&&visited[front->left]==false){
-               flag=true;
-               visited[front->left]=true;
-               q.push(front->left);
-            }
-            if(front->right!=NULL&&visited[front->right]==false){
-                flag=true;
-                visited[front->right]=true;
-                q.push(front->right);
-            }
-            if(parent[front]!=NULL&&visited[parent[front]]==false){
-                flag=true;
-                visited[parent[front]]=true;
+             visited[front]=true;
+             q.pop();
+             if(parent[front]&&visited[parent[front]]==false){
                 q.push(parent[front]);
-            }
-             
-         
              }
-                if(flag==true){
-                ans++;
-            }
-        }
-        return ans;
+             if(front->left&&visited[front->left]==false){
+                q.push(front->left);
+             }
+             if(front->right&&visited[front->right]==false){
+                q.push(front->right);
+             }
+             }
+             timer++;
+
+         }
+    
+        
+        return timer -1;
+        
     }
 };
