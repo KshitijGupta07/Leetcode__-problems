@@ -11,31 +11,19 @@
  */
 class Solution {
 public:
-
+   int solve(TreeNode* root){
+    if(root==NULL){
+        return 0;
+    }
+    return 1+solve(root->left)+solve(root->right);
+   }
     int countNodes(TreeNode* root) {
-        if(root==NULL){
-            return 0;
-        }
-
-        stack<TreeNode*>st;
-        st.push(root);
-        int count=1;
-        while(st.empty()==false){
-            TreeNode* temp=st.top();
-            st.pop();
-            if(temp->left==NULL&&temp->right==NULL&&st.empty()==true){
-                break;
-            }
-            if(temp->left!=NULL){
-                count++;
-                st.push(temp->left);
-            }
-            if(temp->right!=NULL){
-                count++;
-                st.push(temp->right);
-            }
-        }
-        return count;
+          if(root==NULL){
+            return NULL;
+          }
+        
+          int ans=solve(root);
+          return ans;
 
     }
 };
