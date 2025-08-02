@@ -11,21 +11,25 @@
  */
 class Solution {
 public:
-   bool solve(TreeNode* root,long long b,long long a){
-        if(root==NULL){
-            return true;
-        }
-        if(root->val>b&&root->val<a){
-            bool left=solve(root->left,b,root->val);
-            bool right=solve(root->right,root->val,a);
-            return left&&right;
-        }
-        return false;
+   bool solve(TreeNode* root,long long  mini,long long maxi){
+    
+    if(root==NULL){
+        return true;
+    }
+      if(root->val>mini&&root->val<maxi){
+        cout<<root->val<<" "<<mini<<" "<<maxi<<endl;
+        long long element=root->val;
+        bool left=solve(root->left,mini,min(maxi,element));
+        bool right=solve(root->right,max(mini,element),maxi);
+        return left&&right;
+
+      }
+      return false;
    }
     bool isValidBST(TreeNode* root) {
-        long long b=INT_MIN-(long long )1;
-        long long a=INT_MAX +(long long )1;
-        bool ans=solve(root,b,a);
+        long long  mini=INT_MIN-1LL;
+        long long  maxi=INT_MAX+1LL;
+        bool ans=solve(root,mini,maxi);
         return ans;
     }
 };
