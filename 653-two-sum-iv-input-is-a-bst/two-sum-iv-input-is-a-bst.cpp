@@ -11,16 +11,18 @@
  */
 class Solution {
 public:
-    bool search(TreeNode* root,int k){
-        if(root==NULL){
-            return false;
-        }
+   bool search(TreeNode* root,TreeNode* target,int k){
         while(root!=NULL){
-            cout<<root->val<<" "<<k<<endl;
-            if(root->val==k){
+            if(root->val==k-target->val){
+                if(root==target){
+                    return false;
+                }
+                else{
                 return true;
+                }
+
             }
-            else if(root->val>k){
+            else if(root->val>k-target->val){
                 root=root->left;
             }
             else{
@@ -28,27 +30,23 @@ public:
             }
         }
         return false;
-
-    }
-     void traverse(vector<int>&temp,TreeNode*root){
-          if(root==NULL){
-            return;
-          }
-          traverse(temp,root->left);
-          temp.push_back(root->val);
-           traverse(temp,root->right);
-     }
+   }
     bool findTarget(TreeNode* root, int k) {
-        if(root->left==NULL&&root->right==NULL){
-            return false;
+        stack<TreeNode*>st;
+        TreeNode* temp=root;
+        while(temp!=NULL||st.empty()==false){
+               while(temp!=NULL){
+                    st.push(temp);
+                    temp=temp->left;
+               }
+               if(search(root,st.top(),k)){
+                return true;
+               }
+               temp=st.top();
+               st.pop();
+               temp=temp->right;
+
         }
-       vector<int>temp;
-       traverse(temp,root);
-       for(auto j:temp){
-        if(k-j!=j&&search(root,k-j)){
-            return true;
-        }
-       }
-       return false;
+        return false;
     }
 };
