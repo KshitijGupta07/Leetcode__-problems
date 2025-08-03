@@ -1,14 +1,14 @@
 class Solution {
 public:
-   bool check(string s){
-    string x="";
-      for(auto j:s){
-        if(x.empty()){
+   bool check(string& temp){
+      string x="";
+      for(auto j:temp){
+        if(x.empty()==true){
             x.push_back(j);
         }
         else{
             if(x.back()=='('&&j==')'){
-                x.pop_back();
+            x.pop_back();
             }
             else{
                 x.push_back(j);
@@ -17,30 +17,25 @@ public:
       }
       return x.empty();
    }
-   void generate(vector<string>&ans,int n,string temp){
-       if(temp.length()==2*n){
+    void solve(int n,int i,vector<string>&ans,string temp){
+        if(i>=2*n){
         
-           if(check(temp)){
-            cout<<temp<<endl;
-            ans.push_back(temp);
-            return;
-            
-           }
-           else{
-           return;
-           }
-       }
-       temp.push_back('(');
-       generate(ans,n,temp);
-       temp.pop_back();
-       temp.push_back(')');
-       generate(ans,n,temp);
+            if(check(temp)){
+           ans.push_back(temp);
+            }
 
-   }
+           return;
+        }
+        temp.push_back('(');
+        solve(n,i+1,ans,temp);
+        temp.pop_back();
+        temp.push_back(')');
+        solve(n,i+1,ans,temp);
+        temp.pop_back();
+    }
     vector<string> generateParenthesis(int n) {
         vector<string>ans;
-        int count=1;
-        generate(ans,n,"");
+        solve(n,0,ans,"");
         return ans;
     }
 };
