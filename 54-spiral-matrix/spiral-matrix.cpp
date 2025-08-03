@@ -1,47 +1,38 @@
 class Solution {
 public:
-  void solve(vector<vector<int>>& matrix,int &firstrow,int &lastrow,int& firstcolumn,int& lastcolumn,vector<int>&ans){
-     
-         for(int i=firstcolumn;i<=lastcolumn;i++){
-            ans.push_back(matrix[firstrow][i]);
-         }
-         firstrow=firstrow+1;
-         if(firstrow>matrix.size()||firstrow>lastrow){
-            return;
-         }
-         for(int i=firstrow;i<=lastrow;i++){
-            ans.push_back(matrix[i][lastcolumn]);
-         }
-         
-         lastcolumn=lastcolumn-1;
-         if(lastcolumn<0||lastcolumn<firstcolumn){
-            return;
-         }
-         for(int i=lastcolumn;i>=firstcolumn;i--){
-            ans.push_back(matrix[lastrow][i]);
-         }
-          lastrow=lastrow-1;
-          if(lastrow<0||lastrow<firstrow){
-            return;
-          }
-          for(int i=lastrow;i>=firstrow;i--){
-            ans.push_back(matrix[i][firstcolumn]);
-          }
-          firstcolumn=firstcolumn+1;
-          if(firstcolumn>=matrix[0].size()||firstcolumn>lastcolumn){
-            return;
-          }
-          solve(matrix,firstrow,lastrow,firstcolumn,lastcolumn,ans);
-  
-  }
+   void solve(vector<vector<int>>&matrix,int& i,int& j,int& m,int& n,vector<int>&ans){
+    if(i>m||j>n){
+        return;
+    }
+    cout<<i<<" "<<j<<" "<<m<<" "<<n<<endl;
+     for(int x=j;x<=n;x++){
+        ans.push_back(matrix[i][x]);
+     }
+     i+=1;
+     for(int x=i;x<=m;x++){
+        ans.push_back(matrix[x][n]);
+     }
+     n-=1;
+       if(i>m||j>n){
+        return;
+    }
+     for(int x=n;x>=j;x--){
+        ans.push_back(matrix[m][x]);
+     }
+     m-=1;
+     for(int x=m;x>=i;x--){
+        ans.push_back(matrix[x][j]);
+     }
+     j+=1;
+     solve(matrix,i,j,m,n,ans);
+}
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
         vector<int>ans;
-        int firstrow=0;
-        int lastrow=matrix.size()-1;
-        int firstcolumn=0;
-        int lastcolumn=matrix[0].size()-1;
-
-        solve(matrix,firstrow,lastrow,firstcolumn,lastcolumn,ans);
+        int m=matrix.size()-1;
+        int n=matrix[0].size()-1;
+        int i=0;
+        int j=0;
+        solve(matrix,i,j,m,n,ans);
         return ans;
     }
 };
