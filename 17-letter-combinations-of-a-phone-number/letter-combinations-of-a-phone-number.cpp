@@ -1,28 +1,32 @@
 class Solution {
 public:
-void combination(string &digits,string output,int index,vector<string>&ans,vector<string>& mapping){
-    if(index>=digits.length()){
-       ans.push_back(output);
-       return;
-    }
-    cout<<index<<endl;
-    string a=mapping[digits[index]-'0'];
-    for(int i=0;i<a.length();i++){
-        output.push_back(a[i]);
-        combination(digits,output,index+1,ans,mapping);
-        output.pop_back();
-    }
-
-}
+   void solve(string &digits,map<int,string>&m,vector<string>&ans,int i,string temp){
+      if(i>=digits.length()){
+        ans.push_back(temp);
+        return;
+      }
+      string x=m[digits[i]-'0'];
+      for(int index=0;index<x.length();index++){
+           temp.push_back(x[index]);
+           solve(digits,m,ans,i+1,temp);
+           temp.pop_back();
+      }
+   }
     vector<string> letterCombinations(string digits) {
-        vector<string>ans;
-        string output;
-        int index=0;
         if(digits.length()==0){
-            return ans;
+            return {};
         }
-        vector<string>mapping{"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-        combination(digits,output,index,ans,mapping);
+        map<int,string>m;
+        m[2]="abc";
+        m[3]="def";
+        m[4]="ghi";
+        m[5]="jkl";
+        m[6]="mno";
+        m[7]="pqrs";
+        m[8]="tuv";
+        m[9]="wxyz";
+        vector<string>ans;
+        solve(digits,m,ans,0,"");
         return ans;
     }
 };
