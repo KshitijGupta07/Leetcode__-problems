@@ -1,28 +1,22 @@
 class Solution {
 public:
-   int calculate(vector<int>&nums,int goal){
-         int sum=0;
-        int l=0;
-        int r=0;
-        int count=0;
-        while(r<nums.size()){
-            sum+=nums[r];
-            if(sum>goal){
-                while(sum>goal&&l<=r){
-                    cout<<sum<<" ";
-                sum=sum-nums[l];
-                l++;
-                }
-            }
-    
-             
-             count+=r-l+1;
-             r++;
-            
-        }
-        return count;
-   }
     int numSubarraysWithSum(vector<int>& nums, int goal) {
-        return calculate(nums,goal)-calculate(nums,goal-1);
+          vector<int>prefix;
+          int sum=0;
+          for(int i=0;i<nums.size();i++){
+              if(nums[i]==1){
+                sum+=1;
+              }
+              prefix.push_back(sum);
+          }
+          map<int,int>m;
+          m[0]=1;
+          sum=0;
+          for(int i=0;i<prefix.size();i++){
+               sum=sum+m[prefix[i]-goal];
+               m[prefix[i]]+=1;
+          }
+          return sum;
+          
     }
 };
