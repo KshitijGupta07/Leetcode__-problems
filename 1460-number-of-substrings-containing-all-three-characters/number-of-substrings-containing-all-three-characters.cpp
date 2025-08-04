@@ -1,26 +1,36 @@
 class Solution {
 public:
     int numberOfSubstrings(string s) {
-        int a=-1;
-        int b=-1;
-        int c=-1;
+        int l=0;
+        int r=0;
+        map<char,int>m;
         int ans=0;
-        for(int i=0;i<s.length();i++){
-            if(s[i]=='a'){
-                a=i;
-            }
-            if(s[i]=='b'){
-                b=i;
-            }
-     if(s[i]=='c'){
-                c=i;
-            }
-            if(a!=-1&&b!=-1&&c!=-1){
-                ans+=min(a,min(b,c))+1; 
-            }
-
-
+        while(r<s.length()){
+              m[s[r]]++;
+              
+              
+                
+                  
+                  while(m.size()==3){
+                    ans=ans+(s.length()-r);
+                    m[s[l]]-=1;
+                
+                    if(m[s[l]]==0){
+                        m.erase(s[l]);
+                        
+                    }
+                
+                    l++;
+                    
+                  }
+              
+              
+              r++;
+            
         }
+    
+        
+    cout<<l<<endl;
         return ans;
     }
 };
