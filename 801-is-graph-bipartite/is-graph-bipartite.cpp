@@ -1,37 +1,31 @@
 class Solution {
 public:
-   bool check(int i,vector<bool>&visited,vector<bool>&color,vector<vector<int>>&graph){
+   bool solve(vector<vector<int>>&graph,int i, vector<int>&color,vector<bool>&visited){
        visited[i]=true;
-       queue<int>q;
-       q.push(i);
-       color[i]=0;
-       while(q.empty()==false){
-           int front=q.front();
-           q.pop();
-           for(auto j:graph[front]){
-             if(visited[j]==false){
-                visited[j]=true;
-                q.push(j);
-                color[j]=1-color[front];
+       for(auto j:graph[i]){
+        if(visited[j]==false){
+            color[j]=1-color[i];
+            if(solve(graph,j,color,visited)==false){
+                return false;
+            }
+        }
+        else{
+             if(color[j]==color[i]){
+                return false;
              }
-             else{
-                if(color[j]==color[front]){
-                    return false;
-                }
-             }
-           }
+        }
        }
        return true;
    }
     bool isBipartite(vector<vector<int>>& graph) {
-        int n=graph.size();
-        vector<bool>color(n,0);
-        vector<bool>visited(n,0);
-        for(int i=0;i<n;i++){
-            if(visited[i]==false){
-                if(check(i,visited,color,graph)==false){
-                    return false;
-                }
+        vector<int>color(graph.size(),-1);
+        color[0]=0;
+        vector<bool>visited(graph.size(),false);
+        
+        for(int i=0;i<graph.size();i++){
+            bool ans=solve(graph,i,color,visited);
+            if(ans==false){
+                return false;
             }
         }
         return true;
