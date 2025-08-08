@@ -2,60 +2,47 @@ class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
         queue<pair<int,int>>q;
-        vector<vector<bool>>visited(grid.size(),vector<bool>(grid[0].size(),false));
-
-        int m=grid.size();
-        int n=grid[0].size();
-        int count=0;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==2){
-                    q.push({i,j});
-                    visited[i][j]=true;
-                }
-                if(grid[i][j]==1){
-                    count++;
-                }
-            }
+        map<pair<int,int>,bool>m;
+        for(int i=0;i<grid.size();i++){
+              for(int j=0;j<grid[0].size();j++){
+                  if(grid[i][j]==2){
+                     q.push({i,j});
+                     m[{i,j}]=true;
+                  }
+              }
         }
-        if(count==0){
-            return 0;
-        }
-        if(q.size()==0){
-            return -1;
-        }
-        vector<int>a{1,-1,0,0};
-        vector<int>b{0,0,1,-1};
-         int timer=0;
+        int timer=0;
+        vector<int>dx{1,-1,0,0};
+        vector<int>dy{0,0,-1,1};
 
         while(q.empty()==false){
-               int size=q.size();
-               bool signal=false;
-               for(int i=0;i<size;i++){
-                
-                  int x=q.front().first;
-                  int y=q.front().second;
-                  q.pop();
-                  for(int i=0;i<4;i++){
-                     if(x+a[i]>=0&&x+a[i]<m&&y+b[i]>=0&&y+b[i]<n&&visited[x+a[i]][y+b[i]]==false){
-                        if(grid[x+a[i]][y+b[i]]==1){
-                            signal=true;
-                            count-=1;
-                            grid[x+a[i]][y+b[i]]=2;
-                            q.push({x+a[i],y+b[i]});
-                            visited[x+a[i]][y+b[i]]=true;
-                        }
-                     }
-                  }
-
-               }
-               if(signal){
+            int a=q.size();
+            bool check=false;
+            for(int i=0;i<a;i++){
+                   pair<int,int>front=q.front();
+                   q.pop();
+                   for(int j=0;j<4;j++){
+                      int x=front.first+dx[j];
+                      int y=front.second+dy[j];
+                       if(x>=0&&y>=0&&x<grid.size()&&y<grid[0].size()&&m[{x,y}]==false&&grid[x][y]==1){
+                        check=true;
+                        grid[x][y]=2;
+                         q.push({x,y});
+                         m[{x,y}]=true;
+                       }
+                   }
+            }
+            if(check==true){
                 timer++;
-               }
-               
+            }
+            
         }
-        if(count>0){
-            return -1;
+        for(auto j:grid){
+            for(auto k:j){
+                if(k==1){
+                    return -1;
+                }
+            }
         }
         return timer;
     }
