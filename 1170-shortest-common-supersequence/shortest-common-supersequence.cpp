@@ -4,6 +4,7 @@ public:
     if(i==0||j==0){
         return 0;
     }
+
     if(dp[i][j]!=-1){
         return dp[i][j];
     }
@@ -19,15 +20,11 @@ public:
     string shortestCommonSupersequence(string str1, string str2) {
         int i=str1.length();
         int j=str2.length();
+        string temp="";
         vector<vector<int>>dp(str1.length()+1,vector<int>(str2.length()+1,-1));
-        int ans=solve(str1,str2,i,j,dp);
+        int ans =solve(str1,str2,i,j,dp);
         
-         i=str1.length();
-         j=str2.length();
-         string temp="";
-
          while(i>0&&j>0){
-            cout<<i<<" "<<j<<endl;
             if(str1[i-1]==str2[j-1]){
                 temp.push_back(str1[i-1]);
                 i--;
@@ -41,18 +38,16 @@ public:
                 temp.push_back(str2[j-1]);
                 j--;
             }
-
-            
          }
          while(j>0){
             temp.push_back(str2[j-1]);
-            j--;
+            j-=1;
          }
          while(i>0){
             temp.push_back(str1[i-1]);
-            i--;
-         }
+                i-=1;
+            }
          reverse(temp.begin(),temp.end());
-        return temp;
+       return temp;
     }
 };
