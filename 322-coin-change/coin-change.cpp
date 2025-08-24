@@ -1,45 +1,58 @@
 class Solution {
 public:
-//    long long  solve(vector<int>&coins,int amount,vector<int>&dp){
-//       if(amount==0){
-//         return 0;
-//       }
-//       if(amount<0){
-//         return INT_MAX;
-//       }
-//       if(dp[amount]!=INT_MAX){
-//         return dp[amount];
-//       }
-//       long long ans=INT_MAX;
-//       for(int i=0;i<coins.size();i++){
-//              ans=min(ans,1+solve(coins,amount-coins[i],dp));
-//       }
-//       return dp[amount]=ans;
-
-//    }
-   int tab(vector<int>&coins,int amount){
-    vector<long long >dp(amount+1,INT_MAX);
-    dp[0]=0;
-    for(int i=0;i<coins.size();i++){
-        for(int j=1;j<=amount;j++){
-            if(j-coins[i]>=0){
-                if(dp[j-coins[i]]!=INT_MAX){
-                dp[j]=min(dp[j],1+dp[j-coins[i]]);
-                }
-            }
-            
-        }
-        
+   long long  solve(vector<int>&coins,int amount,int index,vector<vector<int>>&dp){
+    if(index>=coins.size()||amount<0){
+        return INT_MAX;
     }
-    return dp[amount];
-   }
-    int coinChange(vector<int>& coins, int amount) {
-        int index=0;
+    if(amount==0){
+        return 0;
+    }
+    // if(amount==coins[index]){
+    //     return 1;
+    // }
+    if(dp[amount][index]!=-1){
+        return dp[amount][index];
+    }
     
-        int ans=tab(coins,amount);
-        if(ans==INT_MAX){
+    long long  a=1+solve(coins,amount-coins[index],index,dp);
+long long  b=solve(coins,amount,index+1,dp);
+    return dp[amount][index]=min(a,b);
+
+   }
+    int tab(vector<int>&coins,int amount){
+        vector<vector<long long >>dp(amount+1,vector<long long >(coins.size()+1,INT_MAX));
+        for(int i=0;i<=coins.size();i++){
+            dp[0][i]=0;
+        }
+        for(int j=coins.size()-1;j>=0;j--){
+            for(int i=0;i<=amount;i++){
+                if(i-coins[j]>=0&&dp[i-coins[j]][j]!=INT_MAX){
+                    dp[i][j]=min(1+dp[i-coins[j]][j],dp[i][j+1]);
+                }
+                else{
+                    dp[i][j]=dp[i][j+1];
+                }
+           
+            }
+        }
+        // for(auto j:dp){
+        //     for(auto k:j){
+        //         cout<<k<<" ";
+        //     }
+        //     cout<<endl;
+        // }
+        return dp[amount][0];
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        vector<vector<int>>dp(amount+1,vector<int>(coins.size(),-1));
+        // long long  ans=solve(coins,amount,0,dp);
+        // if(ans==INT_MAX){
+        //     return -1;
+        // }
+        int a=tab(coins,amount);
+        if(a==INT_MAX){
             return -1;
         }
-        return ans;
+        return a;
     }
 };
