@@ -1,51 +1,52 @@
 class LRUCache {
 public:
-   class Node{
-      public:
-      int key;
-      int val;
-      Node* left;
-      Node* right;
-      Node(int key,int val){
-        this->key=key;
-        this->val=val;
-      }
-   };
-   int count=0;
-   map<int,Node*>m;
-   Node* head=new Node(-1,-1);
-   Node* tail=new Node(-1,-1);
+    class Node{
+        public:
+        int key;
+        int val;
+        Node* left;
+        Node* right;
+        Node(int key,int val){
+            this->key=key;
+            this->val=val;
+        }
+
+    };
+    Node* head=new Node(-1,-1);
+    Node* tail=new Node(-1,-1);
+    map<int,Node*>m;
+    int count=0;
     LRUCache(int capacity) {
-        count=capacity;
         head->right=tail;
         tail->left=head;
+        count=capacity;
     }
     
     int get(int key) {
-      if(m.find(key)==m.end()){
-        return -1;
-      }
-      Node* curr=m[key];
-       remove(curr);
-       insert(curr);
-       return curr->val;
+        if(m.find(key)==m.end()){
+            return -1;
+        }
+        int a=m[key]->val;
+        Node* t=m[key];
+        remove(t);
+        insert(t);
+          return a;
     }
-    void insert(Node* node){
+    void insert(Node* t){
         Node* temp=head->right;
-        head->right=node;
-        node->right=temp;
-        temp->left=node;
-        node->left=head;
-        
+        t->right=temp;
+        temp->left=t;
+        t->left=head;
+        head->right=t;
+
     }
-    void remove(Node* node){
-        Node* temp=node->right;
-        node->right=NULL;
-        Node* temp2=node->left;
-        node->left=NULL;
-        temp2->right=temp;
-        temp->left=temp2;
+    void remove(Node* t){
+        Node* temp1=t->right;
+        Node* temp2=t->left;
+        temp1->left=temp2;
+        temp2->right=temp1;
     }
+    
     void put(int key, int value) {
          if(m.find(key)!=m.end()){
             Node* x=m[key];
@@ -53,12 +54,11 @@ public:
             remove(x);
          }
          if(m.size()==count){
-            m.erase(tail->left->key);
+             m.erase(tail->left->key);
              remove(tail->left);
          }
          insert(new Node(key,value));
          m[key]=head->right;
-
     }
 };
 
