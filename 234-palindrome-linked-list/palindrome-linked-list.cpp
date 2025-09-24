@@ -10,41 +10,37 @@
  */
 class Solution {
 public:
-    int co(ListNode* head){
-        int count=0;
-        while(head!=NULL){
-            count++;
-            head=head->next;
+    ListNode* rev(ListNode* head){
+        ListNode* past=NULL;
+        ListNode* future=NULL;
+        ListNode* curr=head;
+        while(curr!=NULL){
+            future=curr->next;
+            curr->next=past;
+            past=curr;
+            curr=future;
         }
-        return count;
+        return past;
     }
     bool isPalindrome(ListNode* head) {
         ListNode* slow=head;
         ListNode* fast=head;
-        ListNode* prev=NULL;
-        while(fast->next!=NULL&&fast->next->next!=NULL){
+        ListNode* prev=slow;
+        while(fast!=NULL&&fast->next!=NULL){
             prev=slow;
             slow=slow->next;
             fast=fast->next->next;
         }
-        int count=co(head);
-        ListNode* curr=slow;
-        prev=NULL;
-        while(curr!=NULL){
-            ListNode* future=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=future;
-        }
-        while(prev!=NULL&&head!=NULL){
-            if(prev->val!=head->val){
+        prev->next=NULL;
+        slow=rev(slow);
+        while(head!=NULL&&slow!=NULL){
+            if(head->val!=slow->val){
                 return false;
             }
-            prev=prev->next;
             head=head->next;
+            slow=slow->next;
         }
         return true;
-        
 
 
     }
