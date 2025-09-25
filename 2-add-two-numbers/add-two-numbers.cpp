@@ -11,48 +11,56 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* head=NULL;
-        ListNode* temp=NULL;
+        ListNode* newhead=NULL;
+        ListNode* temp=newhead;
         while(l1!=NULL&&l2!=NULL){
-              if(temp==NULL){
-                head=new ListNode(l1->val+l2->val);
-                 temp=head;
-              }
-              else{
+    
+                   if(newhead==NULL){
+                       newhead=new ListNode(l2->val+l1->val);
+                       temp=newhead;
+                   }
+                   else{
+                    
                 
-                temp->next=new ListNode(l1->val+l2->val);
-                temp=temp->next;
-              }
-              l1=l1->next;
-              l2=l2->next;
+                       temp->next=new ListNode(l2->val+l1->val);
+                       temp=temp->next;
+                       
+                   }
+                   l1=l1->next;
+                   l2=l2->next;
+            
+         
         }
-        if(l1!=NULL){
-            temp->next=l1;
+        while(l1!=NULL){
+            temp->next=new ListNode(l1->val);
             temp=temp->next;
+            l1=l1->next;
         }
-        if(l2!=NULL){
-           temp->next=l2;
-           temp=temp->next;
+        while(l2!=NULL){
+            temp->next=new ListNode(l2->val);
+            temp=temp->next;
+            l2=l2->next;
         }
         int carry=0;
-        temp=head;
-       ListNode* prev=NULL;
-        while(temp!=NULL){
-            if(temp->val+carry>9){
-                temp->val=((temp->val+carry)%10);
+        ListNode* prev=NULL;
+        temp=newhead;
+        while(newhead!=NULL){
+            newhead->val=newhead->val+carry;
+            if(newhead->val>9){
+                newhead->val=newhead->val%10;
                 carry=1;
             }
             else{
-                temp->val=temp->val+carry;
                 carry=0;
             }
-            prev=temp;
-            temp=temp->next;
+            prev=newhead;
+            newhead=newhead->next;
         }
         if(carry==1){
-           prev->next=new ListNode(1); 
+            prev->next=new ListNode(1);
         }
-        cout<<carry<<endl;
-        return head;
+   return temp;
+    
+
     }
 };
