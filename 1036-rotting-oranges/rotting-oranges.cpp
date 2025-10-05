@@ -2,38 +2,47 @@ class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
         queue<pair<int,int>>q;
-        map<pair<int,int>,bool>m;
+        map<pair<int,int>,bool>visited;
+        int count=0;
         for(int i=0;i<grid.size();i++){
-              for(int j=0;j<grid[0].size();j++){
-                  if(grid[i][j]==2){
-                     q.push({i,j});
-                     m[{i,j}]=true;
-                  }
-              }
+            for(int j=0;j<grid[0].size();j++){
+                if(grid[i][j]==2){
+                    
+                    q.push({i,j});
+                    visited[{i,j}]=true;
+                }
+                if(grid[i][j]==1){
+                    count++;
+                }
+            }
         }
-        int timer=0;
-        vector<int>dx{1,-1,0,0};
-        vector<int>dy{0,0,-1,1};
+        if(count==0){
+            return 0;
+        }
+        vector<int>a{-1,1,0,0};
+        vector<int>b{0,0,-1,1};
+        count=0;
 
         while(q.empty()==false){
-            int a=q.size();
+            int x=q.size();
             bool check=false;
-            for(int i=0;i<a;i++){
-                   pair<int,int>front=q.front();
-                   q.pop();
-                   for(int j=0;j<4;j++){
-                      int x=front.first+dx[j];
-                      int y=front.second+dy[j];
-                       if(x>=0&&y>=0&&x<grid.size()&&y<grid[0].size()&&m[{x,y}]==false&&grid[x][y]==1){
-                        check=true;
-                        grid[x][y]=2;
-                         q.push({x,y});
-                         m[{x,y}]=true;
-                       }
-                   }
+            for(int i=0;i<x;i++){
+            pair<int,int>front=q.front();
+            q.pop();
+            
+            for(int i=0;i<4;i++){
+                int newx=front.first+a[i];
+                int newy=front.second+b[i];
+                if(newx>=0&&newy>=0&&newx<grid.size()&&newy<grid[0].size()&&visited[{newx,newy}]==false&&grid[newx][newy]==1){
+                    check=true;
+                    grid[newx][newy]=2;
+                    q.push({newx,newy});
+                    visited[{newx,newy}]=true;
+                }
+            }
             }
             if(check==true){
-                timer++;
+                count++;
             }
             
         }
@@ -44,6 +53,6 @@ public:
                 }
             }
         }
-        return timer;
+        return count;
     }
 };
