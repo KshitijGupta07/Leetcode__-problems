@@ -1,23 +1,35 @@
 class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        vector<vector<int>>ans;
-        int i=0;
-        for(;i<intervals.size();i++){
-            if(newInterval[0]>intervals[i][1]){
-                ans.push_back(intervals[i]);
-            }
-            else if(newInterval[1]<intervals[i][0]){
-                 break;
-            }
-            else{
-                newInterval[0]=min(intervals[i][0],newInterval[0]);
-                newInterval[1]=max(intervals[i][1],newInterval[1]);
-                
-            }
+        if(intervals.size()==0){
+            return {newInterval};
         }
+        vector<vector<int>>ans;
+        int index=-1;
+        sort(intervals.begin(),intervals.end());
+        for(int i=0;i<intervals.size();i++){
+             if(newInterval[0]>intervals[i][1]){
+                  ans.push_back(intervals[i]);
+             }
+             else if(newInterval[1]<intervals[i][0]){
+                index=i;
+                break;
+                
+                
+             }
+             else{
+                
+                  int a=intervals[i][0];
+                 int b=intervals[i][1];
+                 int c=newInterval[0];
+                 int d=newInterval[1];
+                 newInterval[0]=min(a,c);
+                 newInterval[1]=max(b,d);
+             }
+        }
+       cout<<newInterval[0]<<" "<<newInterval[1]<<endl;
         ans.push_back(newInterval);
-        for(;i<intervals.size();i++){
+        for(int i=index;i<intervals.size();i++){
             ans.push_back(intervals[i]);
         }
         return ans;
