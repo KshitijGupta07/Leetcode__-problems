@@ -9,9 +9,9 @@ public:
                 return mid;
             }
             else{
-                if(nums[mid]>=nums[start]){
+                if(nums[mid]>=nums[0]){
                     if(target>=nums[start]&&target<=nums[mid]){
-                         end=mid-1;
+                        end=mid-1;
                     }
                     else{
                         start=mid+1;
