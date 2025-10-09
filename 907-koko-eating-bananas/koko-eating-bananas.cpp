@@ -1,33 +1,33 @@
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        long long  start=1;
-        int maxi=-1;
-        for(auto j:piles){
-            maxi=max(maxi,j);
+        int start=1;;
+        int end=INT_MIN;
+        for(int i=0;i<piles.size();i++){
+            
+            end=max(end,piles[i]);
         }
-        long long  end=maxi;
-        long long  ans=pow(10,10);
+        int ans=0;
         while(start<=end){
-            long long  mid=(start+end)/2;
-            int count=0;
+            int mid=(start+end)>>1;
+        long long  sum=0;
             for(int i=0;i<piles.size();i++){
-                long long element=piles[i];
-                count+=(element/mid + min(element%mid,1LL));
-            }
-        
-            if(count<=h&&count>0){
-                cout<<count<<" "<<mid<<endl;
-                if(mid>0){
-                ans=min(ans,mid);
+                if(piles[i]%mid==0){
+                     sum+=(long long)piles[i]/mid;
                 }
-                end=mid-1;
+                else{
+                    sum+=piles[i]/mid +1;
+                }
             }
-            else{
+            if(sum>h){
                 start=mid+1;
             }
+            else{
+                ans=mid;
+                end=mid-1;
+            }
         }
-        cout<<ans<<endl;
         return ans;
+
     }
 };
