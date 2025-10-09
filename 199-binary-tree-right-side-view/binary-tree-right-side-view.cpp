@@ -15,17 +15,18 @@ public:
         if(root==NULL){
             return {};
         }
-        vector<int>ans;
         queue<TreeNode*>q;
         q.push(root);
         q.push(NULL);
+        vector<int>ans;
+        ans.push_back(root->val);
         while(q.empty()==false){
             TreeNode* front=q.front();
             q.pop();
-            if(q.empty()==false&&q.front()==NULL){
-                ans.push_back(front->val);
-            }
             if(front==NULL){
+                if(q.back()){
+                ans.push_back(q.back()->val);
+                }
                 if(q.empty()==false){
                     q.push(NULL);
                 }
@@ -37,10 +38,8 @@ public:
                 if(front->right){
                     q.push(front->right);
                 }
-          
             }
         }
         return ans;
-
     }
 };
