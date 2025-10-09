@@ -11,37 +11,20 @@
  */
 class Solution {
 public:
-    bool isSymmetric(TreeNode* root) {
-        if(root->left==NULL&&root->right==NULL){
-            return true;
-        }
-        TreeNode* l=root->left;
-        TreeNode* r=root->right;
-        queue<TreeNode*>q;
-        q.push(l);
-        q.push(r);
-        while(q.empty()==false){
-            TreeNode* l1=q.front();
-            q.pop();
-            TreeNode* l2=q.front();
-            q.pop();
-            if(l1!=NULL&&l2==NULL){
-                return false;
-            }
-            if(l1==NULL&&l2!=NULL){
-                return false;
-            }
-            if(l1==NULL&&l2==NULL){
-                continue;
-            }
-            if(l1->val!=l2->val){
-                return false;
-            }
-            q.push(l1->left);
-            q.push(l2->right);
-            q.push(l1->right);
-            q.push(l2->left);
-        }
+   bool solve(TreeNode* l,TreeNode* r){
+      if(l==NULL&&r==NULL){
         return true;
+      }
+      if(l!=NULL&&r==NULL){
+        return false;
+      }
+      if(l==NULL&&r!=NULL){
+        return false;
+      }
+      return (l->val==r->val)&&solve(l->right,r->left)&&solve(l->left,r->right);
+   }
+    bool isSymmetric(TreeNode* root) {
+        bool ans=solve(root->left,root->right);
+        return ans;
     }
 };
