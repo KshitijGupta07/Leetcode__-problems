@@ -20,9 +20,6 @@ public:
         return max(left,right);
     }
     int maxDepth(TreeNode* root) {
-        if(root==NULL){
-            return 0;
-        }
         int ans=solve(root);
         return ans;
     }
