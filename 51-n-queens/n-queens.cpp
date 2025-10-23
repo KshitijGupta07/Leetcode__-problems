@@ -1,84 +1,101 @@
 class Solution {
 public:
-   bool check(int i,int j,vector<string>temp,int n){
-       for(int x=0;x<n;x++){
-        if(temp[x][j]=='Q'&&x!=i){
+  bool safe(int i,int j,int n,vector<string>&board){
+    
+     for(int x=0;x<n;x++){
+        if(board[x][j]=='Q'&&x!=i){
             return false;
         }
-       }
-       for(int x=0;x<n;x++){
-        if(temp[i][x]=='Q'&&x!=j){
-            return false;
-        }
-       }
-       int x=i;
-       int y=j;
-       while(x>-1&&y>-1){
-         if(temp[x][y]=='Q'&&(x!=i||y!=j)){
-            return false;
-         }
-         x-=1;
-         y-=1;
-       }
-       x=i;
-       y=j;
-       while(x>-1&&y<n){
-        if(temp[x][y]=='Q'&&(x!=i||y!=j)){
-            return false;
-        }
-        x-=1;
-        y+=1;
-       }
-       x=i;
-       y=j;
-       while(x<n&&y>-1){
-        if(temp[x][y]=='Q'&&(x!=i||y!=j)){
-            return false;
-        }
-        x+=1;
-        y-=1;
-       }
-       x=i;
-       y=j;
-       while(x<n&&y<n){
-        if(temp[x][y]=='Q'&&(x!=i||y!=j)){
-            return false;
-        }
-        x+=1;
-        y+=1;
-       }
-       return true;
-   }
-   void solve(int i,vector<string>temp,vector<vector<string>>&ans,int n){
-     if(i>=n){
-        ans.push_back(temp);
-        return;
      }
-     for(int j=0;j<n;j++){
-        
-         if(check(i,j,temp,n)){
-            temp[i][j]='Q';
-            solve(i+1,temp,ans,n);
-            temp[i][j]='.';
-            
-         }
+
+    
+     for(int x=0;x<n;x++){
+        if(board[i][x]=='Q'&&x!=j){
+            return false;
+        }
+     }
+     
+     int a=i;
+     int b=j;
+     while(a>=0&&b>=0){
+           if(board[a][b]=='Q'){
+               if(a!=i||b!=j){
+                return false;
+               }
+           }
+           a--;
+           b--;
      }
     
+     a=i;
+     b=j;
+    
+     while(a>=0&&b<n){
+        if(board[a][b]=='Q'){
+            if(a!=i||b!=j){
+                return false;
+            }
+        }
+        a--;
+        b++;
+     }
+    
+     a=i;
+     b=j;
+    
+     while(a<n&&b<n){
+        if(board[a][b]=='Q'){
+             if(a!=i||b!=j){
+                return false;
+             }
+        }
+        a++;
+        b++;
+     }
+     
+     a=i;
+     b=j;
+    
+     while(a<n&&b>=0){
+        if(board[a][b]=='Q'){
+            if(a!=i||b!=j){
+                return false;
+            }
+
+        }
+        a++;
+        b--;
+     }
+     
+     return true;
+
+  }
+   void solve(vector<vector<string>>&ans,vector<string>&board,int n,int i){
+    if(i==n){
+        ans.push_back(board);
+        return;
+    }
+    for(int j=0;j<n;j++){
+        if(safe(i,j,n,board)){
+            cout<<safe(i,j,n,board)<<endl;
+            board[i][j]='Q';
+            solve(ans,board,n,i+1);
+            board[i][j]='.';
+        }
+    }
    }
     vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>>ans;
-        
-        vector<string>temp;
+        vector<string>board;
+        string temp="";
         for(int i=0;i<n;i++){
-            string t="";
-            for(int j=0;j<n;j++){
-               t.push_back('.');
-            }
-            temp.push_back(t);
+            temp.push_back('.');
         }
+        for(int i=0;i<n;i++){
+            board.push_back(temp);
+        }
+        vector<vector<string>>ans;
         int i=0;
-        solve(i,temp,ans,n);
+        solve(ans,board,n,i);
         return ans;
-        
     }
 };
