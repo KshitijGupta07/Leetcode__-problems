@@ -1,26 +1,22 @@
 class Solution {
 public:
-    long long  solve(long long  a,long long  x){
-        if(x==0){
+    const long long MOD=1000000007;
+    long long solve(int x,long long y){
+        if(y==0){
             return 1;
         }
-        if(x==1){
-            return a;
+        if(y==1){
+            return x;
         }
-        long long  element=pow(10,9)+7;
-
-        if(x%2==0){
-            long long  c=solve(a,x/2)%element;
-            return( c%element * c%element)%element;
+        if(y%2==0){
+            long long z=solve(x,y/2)%MOD;
+            return (z%MOD*z%MOD)%MOD;
         }
-        long long  b=(a*solve(a,x-1)%element)%element;
-        return b%element;
+        return (x* solve(x,y-1)%MOD)%MOD;
     }
     int countGoodNumbers(long long n) {
-        int element=pow(10,9)+7;
-        long long  ans=solve(4,n/2)%element;
-        long long   ans2=solve(5,n-n/2)%element;
-        
-        return (ans%element*ans2%element)%element;
+        long long a=(n/2)+(n%2);
+        long long b=n-a;
+        return (solve(5,a)%MOD * solve(4,b)%MOD)%MOD;
     }
 };
