@@ -1,19 +1,29 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        int ans=0;
-        for(int i=0;i<32;i++){
-            int s=0;
-            for(int j=0;j<nums.size();j++){
-                if((nums[j]>>i&1)==1){
-                    s++;
+        vector<int>bit(32,0);
+        for(int i=0;i<nums.size();i++){
+            for(int j=31;j>=0;j--){
+            
+                int b=((nums[i])>>j)&1;
+                if(b==1){
+                    bit[j]++;
                 }
+            
+                
             }
-            s=s%3;
-            if(s!=0){
-                ans=ans|s<<i;
-            }
+        
         }
-        return ans;
+         long long  num=0;
+         for(auto j:bit){
+            cout<<j<<" ";
+         }
+         for(int i=0;i<32;i++){
+            if(bit[i]%3!=0){
+                
+            num=num|(bit[i]%3)<<i;
+            }
+         }
+         return num;
     }
 };
