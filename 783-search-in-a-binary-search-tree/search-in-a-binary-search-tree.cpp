@@ -15,13 +15,13 @@ public:
         if(root==NULL){
             return NULL;
         }
-        cout<<root->val<<endl;
         if(root->val==val){
             return root;
         }
-        else if(root->val>val){
-            return searchBST(root->left,val);
+        if(root->val>val){
+           return searchBST(root->left,val);
         }
-        return searchBST(root->right,val);
+       return searchBST(root->right,val);
+
     }
 };
