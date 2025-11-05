@@ -4,29 +4,16 @@ public:
         int l=0;
         int r=0;
         int ans=0;
-        int a=k;
+        vector<int>count(2,0);
         while(r<nums.size()){
-            if(nums[r]==1){
-                r++;
+            count[nums[r]]++;
+            while(count[0]>k){
+                count[nums[l]]-=1;
+                l++;
             }
-            else{
-                if(a>0){
-                    r++;
-                    a-=1;
-                }
-                else{
-                    ans=max(ans,r-l+1);
-                    while(a==0){
-                        if(nums[l]==0){
-                            a++;
-                        }
-                        l++;
-                    }
-
-                }
-            }
+            ans=max(ans,r-l+1);
+            r++;
         }
-        ans=max(ans,r-l+1);
-        return ans -1;
+        return ans;
     }
 };
